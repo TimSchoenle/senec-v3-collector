@@ -36,5 +36,5 @@ COPY --from=builder /app/target/${TARGET}/release/${APP_NAME} /usr/local/bin/${A
 COPY --from=builder /app/profiles /app/profiles
 EXPOSE 9464
 VOLUME ["/app/profiles/generated", "/app/state"]
-USER 10001:10001
+USER 1001:1001
 ENTRYPOINT ["/usr/local/bin/senec-v3-collector"]
