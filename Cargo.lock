@@ -1374,6 +1374,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "senec-v3-workspace"
+version = "0.12.5"
+
+[[package]]
 name = "serde"
 version = "1.0.228"
 source = "registry+https://github.com/rust-lang/crates.io-index"

@@ -1,3 +1,8 @@
+[package]
+name = "senec-v3-workspace"
+version = "0.12.5"
+publish = false
+
 [workspace]
 members = [
     "crates/senec-core",
