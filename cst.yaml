@@ -1,0 +1,12 @@
+schemaVersion: 2.0.0
+
+metadataTest:
+  entrypoint: [ "/usr/local/bin/senec-v3-collector" ]
+  workdir: ''
+  exposedPorts: [ '9464' ]
+  user: '1001:1001'
+
+fileExistenceTests:
+  - name: executable present
+    path: /usr/local/bin/senec-v3-collector
+    shouldExist: true

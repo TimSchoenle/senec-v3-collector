@@ -1,0 +1,197 @@
+﻿name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: 1
+
+permissions:
+  contents: read # Required to checkout the code
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Required to checkout the code
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        with:
+          egress-policy: audit
+
+      - name: Run Check
+        uses: TimSchoenle/actions/actions/rust/cargo-check@6907d47179efeebed4a374ebacb32921ec4dd3fa # tag=actions-rust-cargo-check-v1.1.0
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Required to checkout the code
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        with:
+          egress-policy: audit
+
+      - name: Run Test
+        uses: TimSchoenle/actions/actions/rust/test@0db455a705ea67cf5c0844b1b180ed6b653e1c8d # tag=actions-rust-test-v1.1.0
+
+  fmt:
+    name: Auto Format
+    environment:
+      name: ci
+      deployment: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        with:
+          egress-policy: audit
+
+      - name: Auto Format
+        uses: TimSchoenle/actions/actions/rust/auto-format@1361f508f575af13c560c00f774db66b6c020ce3 # tag=actions-rust-auto-format-v1.1.0
+        with:
+          bot_app_id: ${{ secrets.ACTIONS_MAINTENANCE_APP_ID }}
+          bot_private_key: ${{ secrets.ACTIONS_MAINTENANCE_PRIVATE_KEY }}
+
+  clippy:
+    name: Clippy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read # Required to checkout the code
+      checks: write # Required to annotate the commit with clippy warnings
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        with:
+          egress-policy: audit
+
+      - name: Run Clippy
+        uses: TimSchoenle/actions/actions/rust/clippy@bcab607db683736d14781974e312d58445270c5c # tag=actions-rust-clippy-v1.1.1
+
+  docker-build-test:
+    name: Docker Build and Test
+    runs-on: ubuntu-latest
+    needs: check
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-docker
+      cancel-in-progress: true
+    permissions:
+      contents: read # Required to checkout the code
+      security-events: write # Required to upload Trivy scan results
+      pull-requests: write # Required to comment on PRs with image size
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4
+
+      - name: Build Docker image
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
+        with:
+          context: .
+          push: false
+          load: true
+          tags: image:test
+          build-args: |
+            DATA_INPUT_DIRECTORY=data-test
+            version=test
+            release=test
+            vendor=Tim Schönle
+            VERSION=test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Test Docker image runs
+        run: |
+          docker run --rm image:test --version || true
+          docker run --rm image:test --help || true
+
+      - name: Run structure tests
+        run: |
+          docker pull gcr.io/gcp-runtimes/container-structure-test:latest
+          docker run --rm \
+            -v $PWD/cst.yaml:/cst.yaml \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            gcr.io/gcp-runtimes/container-structure-test:latest test \
+            --image image:test --config /cst.yaml
+
+      - name: Check image size
+        id: size-check
+        run: |
+          SIZE=$(docker image inspect image:test --format='{{.Size}}' | awk '{print int($1/1024/1024)}')
+          echo "size=${SIZE}" >> $GITHUB_OUTPUT
+          echo "Image size: ${SIZE}MB"
+          if [ $SIZE -gt 150 ]; then
+            echo "::warning::Image size (${SIZE}MB) exceeds 150MB threshold"
+          fi
+
+      - name: Scan Docker image for vulnerabilities
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
+        with:
+          image-ref: image:test
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Comment image size on PR
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        if: github.event_name == 'pull_request'
+        env:
+          SIZE: ${{ steps.size-check.outputs.size }}
+        with:
+          script: |
+            const size = process.env.SIZE;
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `🐳 Docker image size: **${size}MB**`
+            });
+
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    needs: check
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@6c3c2f2c1c457b00c10c4848d6f5491db3b629df # v2.18.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
