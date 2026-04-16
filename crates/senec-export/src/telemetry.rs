@@ -315,12 +315,7 @@ impl PrometheusMetricsExporter {
     pub fn record_metric(&self, object: &str, key: &str, index: usize, value: f64) {
         let index_label = index.to_string();
         self.values
-            .with_label_values(&[
-                self.site_id.as_str(),
-                object,
-                key,
-                index_label.as_str(),
-            ])
+            .with_label_values(&[self.site_id.as_str(), object, key, index_label.as_str()])
             .set(value);
     }
 
