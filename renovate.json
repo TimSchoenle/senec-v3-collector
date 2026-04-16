@@ -1,0 +1,17 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>TimSchoenle/actions//configs/renovate/default"
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": [
+        "dtolnay/rust-toolchain",
+        "lukemathwalker/cargo-chef",
+        "aquasecurity/trivy-action",
+        "taiki-e/install-action"
+      ],
+      "enabled": false
+    }
+  ]
+}
