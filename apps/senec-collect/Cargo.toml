@@ -1,0 +1,19 @@
+[package]
+name = "senec-v3-collector"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+axum.workspace = true
+clap.workspace = true
+dotenvy.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+url.workspace = true
+
+senec-core = { path = "../../crates/senec-core" }
+senec-export = { path = "../../crates/senec-export" }
