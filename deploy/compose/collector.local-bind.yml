@@ -1,0 +1,22 @@
+services:
+  collector:
+    image: timschoenle/senec-v3-collector:v1.1.0@sha256:d877dbf87f29eb304060b990b3dfcc443bbd42cb4d17be886bd994608dafe321
+    environment:
+      SENEC_BASE_URL: ${SENEC_BASE_URL}
+      SENEC_POST_PATH: ${SENEC_POST_PATH}
+      SENEC_TIMEOUT_SECS: ${SENEC_TIMEOUT_SECS}
+      SENEC_INSECURE_TLS: ${SENEC_INSECURE_TLS}
+      SENEC_CHUNK_SIZE: ${SENEC_CHUNK_SIZE}
+      SENEC_POLL_INTERVAL_SECS: ${SENEC_POLL_INTERVAL_SECS}
+      SENEC_PROFILE_PATH: ${SENEC_PROFILE_PATH}
+      SENEC_SITE_ID: ${SENEC_SITE_ID}
+      SENEC_GRID_IMPORT_PRICE_EUR_PER_KWH: ${SENEC_GRID_IMPORT_PRICE_EUR_PER_KWH}
+      SENEC_GRID_EXPORT_PRICE_EUR_PER_KWH: ${SENEC_GRID_EXPORT_PRICE_EUR_PER_KWH}
+      SENEC_ECONOMICS_STATE_PATH: ${SENEC_ECONOMICS_STATE_PATH}
+      RUST_LOG: ${RUST_LOG}
+    volumes:
+      - ../profiles/generated:/app/profiles/generated
+      - ./data/collector-state:/app/state
+    restart: unless-stopped
+    ports:
+      - ${COLLECTOR_PORT}:9464

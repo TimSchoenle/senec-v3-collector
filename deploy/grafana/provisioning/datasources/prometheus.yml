@@ -14,10 +14,3 @@ datasources:
     url: http://victoriametrics:8428
     isDefault: true
     editable: false
-  - name: Prometheus (Local)
-    uid: victoriametrics-local
-    type: prometheus
-    access: proxy
-    url: http://prometheus:9090
-    isDefault: false
-    editable: false

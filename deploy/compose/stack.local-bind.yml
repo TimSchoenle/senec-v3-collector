@@ -1,0 +1,59 @@
+services:
+  collector:
+    image: timschoenle/senec-v3-collector:v1.1.0@sha256:d877dbf87f29eb304060b990b3dfcc443bbd42cb4d17be886bd994608dafe321
+    environment:
+      SENEC_BASE_URL: ${SENEC_BASE_URL}
+      SENEC_POST_PATH: ${SENEC_POST_PATH}
+      SENEC_TIMEOUT_SECS: ${SENEC_TIMEOUT_SECS}
+      SENEC_INSECURE_TLS: ${SENEC_INSECURE_TLS}
+      SENEC_CHUNK_SIZE: ${SENEC_CHUNK_SIZE}
+      SENEC_POLL_INTERVAL_SECS: ${SENEC_POLL_INTERVAL_SECS}
+      SENEC_PROFILE_PATH: ${SENEC_PROFILE_PATH}
+      SENEC_SITE_ID: ${SENEC_SITE_ID}
+      SENEC_GRID_IMPORT_PRICE_EUR_PER_KWH: ${SENEC_GRID_IMPORT_PRICE_EUR_PER_KWH}
+      SENEC_GRID_EXPORT_PRICE_EUR_PER_KWH: ${SENEC_GRID_EXPORT_PRICE_EUR_PER_KWH}
+      SENEC_ECONOMICS_STATE_PATH: ${SENEC_ECONOMICS_STATE_PATH}
+      RUST_LOG: ${RUST_LOG}
+    volumes:
+      - ../profiles/generated:/app/profiles/generated
+      - ./data/collector-state:/app/state
+    restart: unless-stopped
+    networks:
+      - senec
+
+  victoriametrics:
+    image: victoriametrics/victoria-metrics:v1.140.0@sha256:5ea06e3a567249f8a23181208755f36dabd3b515f7023e9eb570fd4ae6c29203
+    command:
+      - -storageDataPath=/storage
+      - -promscrape.config=/etc/victoriametrics/scrape.yaml
+      - -retentionPeriod=${VICTORIAMETRICS_RETENTION}
+    volumes:
+      - ./data/victoriametrics:/storage
+      - type: bind
+        read_only: true
+        source: ../victoriametrics/
+        target: /etc/victoriametrics/
+    restart: unless-stopped
+    networks:
+      - senec
+
+  grafana:
+    image: grafana/grafana:12.4.2@sha256:83749231c3835e390a3144e5e940203e42b9589761f20ef3169c716e734ad505
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ../grafana/provisioning:/etc/grafana/provisioning:ro
+      - ../grafana/dashboards:/var/lib/grafana/dashboards:ro
+    ports:
+      - ${GRAFANA_PORT:-3000}:3000
+    depends_on:
+      - victoriametrics
+    restart: unless-stopped
+    networks:
+      - senec
+
+networks:
+  senec:

@@ -52,7 +52,7 @@ struct Cli {
     #[arg(
         long,
         env = "SENEC_DISCOVERY_OUTPUT",
-        default_value = "profiles/generated/senec-profile-live.json",
+        default_value = "deploy/profiles/generated/senec-profile-live.json",
         help = "Output path for generated metric profile"
     )]
     output: PathBuf,

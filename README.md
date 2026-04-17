@@ -28,7 +28,7 @@ cargo test --workspace
 ### 2. Discover a live profile
 
 ```powershell
-cargo run -p senec-v3-discover -- --output profiles/generated/senec-profile-live.json
+cargo run -p senec-v3-discover -- --output deploy/profiles/generated/senec-profile-live.json
 ```
 
 ### 3. Run the collector
@@ -66,8 +66,8 @@ Common variables:
 | `SENEC_TIMEOUT_SECS` | `10` | HTTP timeout |
 | `SENEC_INSECURE_TLS` | `true` | Allow self-signed certificates |
 | `SENEC_CHUNK_SIZE` | `20` | Max keys per request chunk |
-| `SENEC_DISCOVERY_OUTPUT` | `profiles/generated/senec-profile-live.json` | Output path for discovery |
-| `SENEC_PROFILE_PATH` | `profiles/generated/senec-profile-live.json` | Profile used by collector |
+| `SENEC_DISCOVERY_OUTPUT` | `deploy/profiles/generated/senec-profile-live.json` | Output path for discovery |
+| `SENEC_PROFILE_PATH` | `deploy/profiles/generated/senec-profile-live.json` | Profile used by collector |
 | `SENEC_POLL_INTERVAL_SECS` | `10` | Collector poll interval |
 | `SENEC_METRICS_BIND` | `0.0.0.0:9464` | Collector bind address |
 | `SENEC_METRICS_PATH` | `/metrics` | Collector metrics route |
@@ -81,7 +81,7 @@ Note: `.env.example` sets `SENEC_ECONOMICS_STATE_PATH=/app/state/grid-economics-
 
 ## Generated Files
 
-- `profiles/generated/senec-profile-live.json`: Generated profile from discovery.
+- `deploy/profiles/generated/senec-profile-live.json`: Generated profile from discovery.
 - `state/grid-economics-state.json`: Persistent cumulative economics state (path configurable).
 
 ## Docker
@@ -97,7 +97,7 @@ Run collector container:
 ```powershell
 docker run --rm `
   -p 9464:9464 `
-  -v ${PWD}/profiles/generated:/app/profiles/generated `
+  -v ${PWD}/deploy/profiles/generated:/app/profiles/generated `
   -v ${PWD}/state:/app/state `
   -e SENEC_BASE_URL=https://192.168.178.36 `
   -e SENEC_PROFILE_PATH=/app/profiles/generated/senec-profile-live.json `
@@ -105,27 +105,33 @@ docker run --rm `
   senec-v3-collector:dev
 ```
 
-## Docker Compose Stack
+## Docker Compose Examples
 
-The repository includes an optional monitoring stack:
+Compose files are in `deploy/compose`:
 
-- `collector`
-- `prometheus`
-- `victoriametrics`
-- `grafana`
+- `deploy/compose/stack.yml`: Full monitoring stack using named volumes.
+- `deploy/compose/stack.local-bind.yml`: Full monitoring stack with only relative local bind mounts (`deploy/compose/data/...`).
+- `deploy/compose/collector.local-bind.yml`: Collector-only setup with relative local bind mounts.
 
-Start it:
+Start a stack example:
 
 ```powershell
 Copy-Item .env.example .env
-docker compose up -d --build
+docker compose -f deploy/compose/stack.yml up -d --build
+```
+
+Fully local disk-backed stack (relative bind mounts):
+
+```powershell
+Copy-Item .env.example .env
+docker compose -f deploy/compose/stack.local-bind.yml up -d --build
 ```
 
 Default URLs:
 
 - Grafana: `http://localhost:3000`
-- Prometheus: `http://localhost:9090`
-- VictoriaMetrics: `http://localhost:8428/vmui`
+- Prometheus: internal-only by default (`http://prometheus:9090` on the `senec` Docker network)
+- VictoriaMetrics: internal-only by default (`http://victoriametrics:8428` on the `senec` Docker network)
 
 Default Grafana credentials:
 
