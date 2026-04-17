@@ -33,7 +33,6 @@ ENV RUST_LOG=info
 WORKDIR /app
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /app/target/${TARGET}/release/${APP_NAME} /usr/local/bin/${APP_NAME}
-COPY --from=builder /app/profiles /app/profiles
 EXPOSE 9464
 VOLUME ["/app/profiles/generated", "/app/state"]
 USER 1001:1001
