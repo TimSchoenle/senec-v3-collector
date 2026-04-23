@@ -1,5 +1,33 @@
 # Changelog
 
+## [1.1.1](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.0...v1.1.1) (2026-04-23)
+
+
+### CI
+
+* adjust docker compose for my personal use case ([179eb30](https://github.com/TimSchoenle/senec-v3-collector/commit/179eb30b257c91d39e668e48cb32fcde97e47209))
+
+
+### Build System
+
+* fix dockerfile ([a93dc3a](https://github.com/TimSchoenle/senec-v3-collector/commit/a93dc3ad116648d86f6ef1e258ff6b4940817449))
+
+
+### Miscellaneous
+
+* **deps:** update github/codeql-action action to v4.35.2 ([#17](https://github.com/TimSchoenle/senec-v3-collector/issues/17)) ([4e13230](https://github.com/TimSchoenle/senec-v3-collector/commit/4e13230f7aa5bc0946d66179d50b8ffd4907cbbd))
+* **deps:** update rust crate tokio to v1.52.1 ([#18](https://github.com/TimSchoenle/senec-v3-collector/issues/18)) ([f0e7790](https://github.com/TimSchoenle/senec-v3-collector/commit/f0e77906588428c7a45df4c106b4f5107fe71d88))
+* **deps:** update step-security/harden-runner action to v2.19.0 ([#20](https://github.com/TimSchoenle/senec-v3-collector/issues/20)) ([73c1448](https://github.com/TimSchoenle/senec-v3-collector/commit/73c14482678e73994d29c01de8d641f8f0f7542c))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.4 ([#12](https://github.com/TimSchoenle/senec-v3-collector/issues/12)) ([c77dfb0](https://github.com/TimSchoenle/senec-v3-collector/commit/c77dfb0e91f2bf83b0c5aca28d3b291f772c0abf))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.14 ([#13](https://github.com/TimSchoenle/senec-v3-collector/issues/13)) ([52a0fc0](https://github.com/TimSchoenle/senec-v3-collector/commit/52a0fc0e3dde6811e8153fd794d91f40ddf950c5))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.1 ([#15](https://github.com/TimSchoenle/senec-v3-collector/issues/15)) ([7e82ca6](https://github.com/TimSchoenle/senec-v3-collector/commit/7e82ca66e59f177e58bdc1815be9b2530449de34))
+* **deps:** update timschoenle/actions/actions/rust/cargo-check to vactions-rust-cargo-check-v1.1.1 ([#16](https://github.com/TimSchoenle/senec-v3-collector/issues/16)) ([12146c2](https://github.com/TimSchoenle/senec-v3-collector/commit/12146c2f2e6fd4d7438cb19efa9b4223124378b1))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#19](https://github.com/TimSchoenle/senec-v3-collector/issues/19)) ([08f725e](https://github.com/TimSchoenle/senec-v3-collector/commit/08f725e55d8bf55bbc5861e4346bed4164bee944))
+
 ## [1.1.0](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.0.0...v1.1.0) (2026-04-16)
 
 
