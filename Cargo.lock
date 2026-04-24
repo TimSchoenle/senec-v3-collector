@@ -1312,7 +1312,7 @@ dependencies = [
 
 [[package]]
 name = "senec-core"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "anyhow",
  "reqwest",
@@ -1323,7 +1323,7 @@ dependencies = [
 
 [[package]]
 name = "senec-discovery"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "anyhow",
  "regex",
@@ -1333,7 +1333,7 @@ dependencies = [
 
 [[package]]
 name = "senec-export"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "anyhow",
  "prometheus",
@@ -1343,7 +1343,7 @@ dependencies = [
 
 [[package]]
 name = "senec-v3-collector"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "anyhow",
  "axum",
@@ -1359,7 +1359,7 @@ dependencies = [
 
 [[package]]
 name = "senec-v3-discover"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "anyhow",
  "clap",
@@ -1375,7 +1375,7 @@ dependencies = [
 
 [[package]]
 name = "senec-v3-workspace"
-version = "1.1.0"
+version = "1.1.1"
 
 [[package]]
 name = "serde"
