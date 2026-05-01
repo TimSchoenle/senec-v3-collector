@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.2](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.1...v1.1.2) (2026-05-01)
+
+
+### Miscellaneous
+
+* **deps:** update rust crate reqwest to v0.13.3 ([#28](https://github.com/TimSchoenle/senec-v3-collector/issues/28)) ([2aa4e0e](https://github.com/TimSchoenle/senec-v3-collector/commit/2aa4e0edc2eb2de1a289bd5f64de5308e8c442cb))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.5 ([#25](https://github.com/TimSchoenle/senec-v3-collector/issues/25)) ([72b56de](https://github.com/TimSchoenle/senec-v3-collector/commit/72b56debd517878abe9433e0186d9841bba1ad2d))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.6 ([#29](https://github.com/TimSchoenle/senec-v3-collector/issues/29)) ([d0ac9bb](https://github.com/TimSchoenle/senec-v3-collector/commit/d0ac9bb09e84545978b38ff67e5ec4498e361401))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.15 ([#23](https://github.com/TimSchoenle/senec-v3-collector/issues/23)) ([7a19731](https://github.com/TimSchoenle/senec-v3-collector/commit/7a197318f7571e3f72e9ebe2096a85c85e4e21e0))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.16 ([#26](https://github.com/TimSchoenle/senec-v3-collector/issues/26)) ([f648891](https://github.com/TimSchoenle/senec-v3-collector/commit/f64889152871ae12f23badadb2427cd51a2c6885))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.2 ([#21](https://github.com/TimSchoenle/senec-v3-collector/issues/21)) ([587b7c6](https://github.com/TimSchoenle/senec-v3-collector/commit/587b7c6735688770c150ab8cc6803b207c49af5f))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.3 ([#27](https://github.com/TimSchoenle/senec-v3-collector/issues/27)) ([9c8de99](https://github.com/TimSchoenle/senec-v3-collector/commit/9c8de9910b8fb30c5670a30f07f55b7759810612))
+
 ## [1.1.1](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.0...v1.1.1) (2026-04-23)
 
 
