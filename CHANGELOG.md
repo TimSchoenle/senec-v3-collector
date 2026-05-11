@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.3](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.2...v1.1.3) (2026-05-10)
+
+
+### Miscellaneous
+
+* **deps:** update github/codeql-action action to v4.35.3 ([#32](https://github.com/TimSchoenle/senec-v3-collector/issues/32)) ([855479b](https://github.com/TimSchoenle/senec-v3-collector/commit/855479bc7103a4f9de738f0554526dd7b9bb0674))
+* **deps:** update github/codeql-action action to v4.35.4 ([#38](https://github.com/TimSchoenle/senec-v3-collector/issues/38)) ([3055b10](https://github.com/TimSchoenle/senec-v3-collector/commit/3055b103bd0ee9d2605bb79e2705033fd924068e))
+* **deps:** update googleapis/release-please-action action to v5 ([#24](https://github.com/TimSchoenle/senec-v3-collector/issues/24)) ([95d2d4f](https://github.com/TimSchoenle/senec-v3-collector/commit/95d2d4fcc6c637d2f4a9e5addf32f3cbac063793))
+* **deps:** update rust crate tokio to v1.52.2 ([#36](https://github.com/TimSchoenle/senec-v3-collector/issues/36)) ([461dbf7](https://github.com/TimSchoenle/senec-v3-collector/commit/461dbf7cd3d576af9390d8cdbac53dbedbfd0030))
+* **deps:** update sigstore/cosign-installer action to v4.1.2 ([#37](https://github.com/TimSchoenle/senec-v3-collector/issues/37)) ([7a9f306](https://github.com/TimSchoenle/senec-v3-collector/commit/7a9f306f1e7756fb7a9c4c538b2b377b38e22826))
+* **deps:** update step-security/harden-runner action to v2.19.1 ([#33](https://github.com/TimSchoenle/senec-v3-collector/issues/33)) ([aaad2aa](https://github.com/TimSchoenle/senec-v3-collector/commit/aaad2aad3c006f2375882894e9f4b6316c5c8f5e))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.7 ([#35](https://github.com/TimSchoenle/senec-v3-collector/issues/35)) ([83ecfea](https://github.com/TimSchoenle/senec-v3-collector/commit/83ecfea7aea0639d5e9ac82c2a7c26664aed559b))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.17 ([#34](https://github.com/TimSchoenle/senec-v3-collector/issues/34)) ([e8e84b5](https://github.com/TimSchoenle/senec-v3-collector/commit/e8e84b59d807b36017d93d20ffc7a861750800a4))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#30](https://github.com/TimSchoenle/senec-v3-collector/issues/30)) ([a109ad1](https://github.com/TimSchoenle/senec-v3-collector/commit/a109ad1e1686cc88ab341e9c967e3b1029589385))
+
 ## [1.1.2](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.1...v1.1.2) (2026-05-01)
 
 
