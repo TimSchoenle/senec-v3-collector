@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.1.4](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.3...v1.1.4) (2026-05-18)
+
+
+### Miscellaneous
+
+* **deps:** update actions/create-github-app-token action to v3.2.0 ([#46](https://github.com/TimSchoenle/senec-v3-collector/issues/46)) ([aa211e3](https://github.com/TimSchoenle/senec-v3-collector/commit/aa211e37ede0dc2baa6c2de0b2e6427a4375c492))
+* **deps:** update docker/dockerfile docker tag to v1.24 ([#47](https://github.com/TimSchoenle/senec-v3-collector/issues/47)) ([794492f](https://github.com/TimSchoenle/senec-v3-collector/commit/794492f0fbc271a6bb6929a221ae8b9e5cad6dd0))
+* **deps:** update step-security/harden-runner action to v2.19.2 ([#48](https://github.com/TimSchoenle/senec-v3-collector/issues/48)) ([e77d692](https://github.com/TimSchoenle/senec-v3-collector/commit/e77d692235babbd8e127117e7f6958117281f750))
+* **deps:** update step-security/harden-runner action to v2.19.3 ([#49](https://github.com/TimSchoenle/senec-v3-collector/issues/49)) ([5d5632c](https://github.com/TimSchoenle/senec-v3-collector/commit/5d5632c07d0f2c4fa35368baa2f6cf8516e461c7))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.18 ([#45](https://github.com/TimSchoenle/senec-v3-collector/issues/45)) ([9da05e3](https://github.com/TimSchoenle/senec-v3-collector/commit/9da05e3132015335dbff6c03a2e07f36e5a5c5c0))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.2 ([#42](https://github.com/TimSchoenle/senec-v3-collector/issues/42)) ([cb3d880](https://github.com/TimSchoenle/senec-v3-collector/commit/cb3d880ae5597b5d17ae2fe14f475957b55d3737))
+* **deps:** update timschoenle/actions/actions/rust/cargo-check to vactions-rust-cargo-check-v1.1.2 ([#43](https://github.com/TimSchoenle/senec-v3-collector/issues/43)) ([ca4acf3](https://github.com/TimSchoenle/senec-v3-collector/commit/ca4acf3bb033606a4b2bbd868b240092dcdb71a4))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.4 ([#44](https://github.com/TimSchoenle/senec-v3-collector/issues/44)) ([ada020b](https://github.com/TimSchoenle/senec-v3-collector/commit/ada020b73f5aaca9d9143e70da8ce54059422158))
+* **deps:** update zizmorcore/zizmor-action action to v0.5.5 ([#51](https://github.com/TimSchoenle/senec-v3-collector/issues/51)) ([4053668](https://github.com/TimSchoenle/senec-v3-collector/commit/405366885359b61f33147f6dee4bafe1ddf46742))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#39](https://github.com/TimSchoenle/senec-v3-collector/issues/39)) ([6284f34](https://github.com/TimSchoenle/senec-v3-collector/commit/6284f34945f33ac50a69aef7aa3df079a2e60572))
+* **deps:** lock file maintenance ([#50](https://github.com/TimSchoenle/senec-v3-collector/issues/50)) ([4aeaa44](https://github.com/TimSchoenle/senec-v3-collector/commit/4aeaa4441bbbebad779547d1dd26c3e9a350ccdd))
+
 ## [1.1.3](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.2...v1.1.3) (2026-05-10)
 
 
