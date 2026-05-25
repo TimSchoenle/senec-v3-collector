@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.1.5](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.4...v1.1.5) (2026-05-25)
+
+
+### Miscellaneous
+
+* **deps:** update docker/build-push-action digest to f9f3042 ([#55](https://github.com/TimSchoenle/senec-v3-collector/issues/55)) ([6b2132e](https://github.com/TimSchoenle/senec-v3-collector/commit/6b2132ecee4d24b9d8caa5aeefb6a4daafad61ce))
+* **deps:** update docker/login-action digest to 650006c ([#56](https://github.com/TimSchoenle/senec-v3-collector/issues/56)) ([9238162](https://github.com/TimSchoenle/senec-v3-collector/commit/92381625d52b31bf58c71e083c7b1fa078176f89))
+* **deps:** update docker/metadata-action digest to 80c7e94 ([#57](https://github.com/TimSchoenle/senec-v3-collector/issues/57)) ([dc71d92](https://github.com/TimSchoenle/senec-v3-collector/commit/dc71d9227a0705e31aa5bd4cdd023de5b95e612e))
+* **deps:** update docker/setup-buildx-action digest to d7f5e7f ([#58](https://github.com/TimSchoenle/senec-v3-collector/issues/58)) ([058cab2](https://github.com/TimSchoenle/senec-v3-collector/commit/058cab280f03989092d7209ee96cce4880d6f75f))
+* **deps:** update github/codeql-action action to v4.35.5 ([#52](https://github.com/TimSchoenle/senec-v3-collector/issues/52)) ([f520b81](https://github.com/TimSchoenle/senec-v3-collector/commit/f520b81480636ab47e9b7e0e3c9cd9e53be2a744))
+* **deps:** update github/codeql-action action to v4.36.0 ([#62](https://github.com/TimSchoenle/senec-v3-collector/issues/62)) ([81c2c21](https://github.com/TimSchoenle/senec-v3-collector/commit/81c2c2127a6604287a246dbedae4eca4d06696e1))
+* **deps:** update rust crate serde_json to v1.0.150 ([#60](https://github.com/TimSchoenle/senec-v3-collector/issues/60)) ([f85cf6a](https://github.com/TimSchoenle/senec-v3-collector/commit/f85cf6ac5ab90520debe5a9f4ae84320de69b24f))
+* **deps:** update step-security/harden-runner action to v2.19.4 ([#59](https://github.com/TimSchoenle/senec-v3-collector/issues/59)) ([1d7479d](https://github.com/TimSchoenle/senec-v3-collector/commit/1d7479d94cd388d5a320d53d7094d8b1b36aa5bd))
+* **deps:** update zizmorcore/zizmor-action action to v0.5.6 ([#54](https://github.com/TimSchoenle/senec-v3-collector/issues/54)) ([081467a](https://github.com/TimSchoenle/senec-v3-collector/commit/081467a6f6b326da0f24f2dd0b8170ab83a9fec9))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#61](https://github.com/TimSchoenle/senec-v3-collector/issues/61)) ([87ddacc](https://github.com/TimSchoenle/senec-v3-collector/commit/87ddacc8f404d8068f1bf7969e6de4c0ad3354c4))
+
 ## [1.1.4](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.3...v1.1.4) (2026-05-18)
 
 
