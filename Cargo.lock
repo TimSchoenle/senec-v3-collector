@@ -1316,7 +1316,7 @@ checksum = "8a7852d02fc848982e0c167ef163aaff9cd91dc640ba85e263cb1ce46fae51cd"
 
 [[package]]
 name = "senec-core"
-version = "1.1.5"
+version = "1.1.6"
 dependencies = [
  "anyhow",
  "reqwest",
@@ -1327,7 +1327,7 @@ dependencies = [
 
 [[package]]
 name = "senec-discovery"
-version = "1.1.5"
+version = "1.1.6"
 dependencies = [
  "anyhow",
  "regex",
@@ -1337,7 +1337,7 @@ dependencies = [
 
 [[package]]
 name = "senec-export"
-version = "1.1.5"
+version = "1.1.6"
 dependencies = [
  "anyhow",
  "prometheus",
@@ -1347,7 +1347,7 @@ dependencies = [
 
 [[package]]
 name = "senec-v3-collector"
-version = "1.1.5"
+version = "1.1.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -1363,7 +1363,7 @@ dependencies = [
 
 [[package]]
 name = "senec-v3-discover"
-version = "1.1.5"
+version = "1.1.6"
 dependencies = [
  "anyhow",
  "clap",
@@ -1379,7 +1379,7 @@ dependencies = [
 
 [[package]]
 name = "senec-v3-workspace"
-version = "1.1.5"
+version = "1.1.6"
 
 [[package]]
 name = "serde"

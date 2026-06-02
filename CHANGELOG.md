@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.6](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.5...v1.1.6) (2026-06-02)
+
+
+### Miscellaneous
+
+* **deps:** update actions/dependency-review-action action to v5 ([#41](https://github.com/TimSchoenle/senec-v3-collector/issues/41)) ([90fd11b](https://github.com/TimSchoenle/senec-v3-collector/commit/90fd11b0efa6f2d5d5007375143efc8b914ca033))
+* **deps:** update docker/setup-qemu-action digest to 0611638 ([#63](https://github.com/TimSchoenle/senec-v3-collector/issues/63)) ([94636ed](https://github.com/TimSchoenle/senec-v3-collector/commit/94636ed045656f3d29142ff8a47554a5ae9bdf7e))
+* **deps:** update rust crate reqwest to v0.13.4 ([#65](https://github.com/TimSchoenle/senec-v3-collector/issues/65)) ([4930b82](https://github.com/TimSchoenle/senec-v3-collector/commit/4930b82d916a9ca6bb8b3faf4db0567b79789064))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.8 ([#66](https://github.com/TimSchoenle/senec-v3-collector/issues/66)) ([2340a05](https://github.com/TimSchoenle/senec-v3-collector/commit/2340a0534806d76a380e73361a5c6deb8b5a06b8))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.19 ([#67](https://github.com/TimSchoenle/senec-v3-collector/issues/67)) ([2c3ad94](https://github.com/TimSchoenle/senec-v3-collector/commit/2c3ad945c72b7c25df8387db8e437282052b7a1b))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.20 ([#69](https://github.com/TimSchoenle/senec-v3-collector/issues/69)) ([ea276a6](https://github.com/TimSchoenle/senec-v3-collector/commit/ea276a6ebb1c6295782398774e59ecc931a2d468))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.3 ([#68](https://github.com/TimSchoenle/senec-v3-collector/issues/68)) ([cec276a](https://github.com/TimSchoenle/senec-v3-collector/commit/cec276a830977e4f72a8891d2502ca42e7301762))
+
 ## [1.1.5](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.4...v1.1.5) (2026-05-25)
 
 
