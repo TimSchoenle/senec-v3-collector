@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.8](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.7...v1.1.8) (2026-06-15)
+
+
+### Miscellaneous
+
+* **deps:** update rust crate regex to v1.12.4 ([#83](https://github.com/TimSchoenle/senec-v3-collector/issues/83)) ([777dd3a](https://github.com/TimSchoenle/senec-v3-collector/commit/777dd3a3bb037c0abfb77d2486ad5d8542ca2f31))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#85](https://github.com/TimSchoenle/senec-v3-collector/issues/85)) ([ebec46d](https://github.com/TimSchoenle/senec-v3-collector/commit/ebec46dff9ef9fb42a0ea0ae788d3a88360b48f9))
+
 ## [1.1.7](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.6...v1.1.7) (2026-06-12)
 
 
