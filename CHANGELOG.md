@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.1.9](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.8...v1.1.9) (2026-06-25)
+
+
+### Miscellaneous
+
+* **deps:** update actions/checkout action to v7 ([#86](https://github.com/TimSchoenle/senec-v3-collector/issues/86)) ([a1d2156](https://github.com/TimSchoenle/senec-v3-collector/commit/a1d2156b43e705f152e5414f72968dbafbc46112))
+* **deps:** update all non-major action updates ([#91](https://github.com/TimSchoenle/senec-v3-collector/issues/91)) ([5431ec9](https://github.com/TimSchoenle/senec-v3-collector/commit/5431ec961f22a2333d3de4c12e5066739343366e))
+* **deps:** update docker/dockerfile docker tag to v1.25 ([#87](https://github.com/TimSchoenle/senec-v3-collector/issues/87)) ([2f8fa5e](https://github.com/TimSchoenle/senec-v3-collector/commit/2f8fa5ea31d5efa1076d9522731fc121f36d10f6))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.22 ([#90](https://github.com/TimSchoenle/senec-v3-collector/issues/90)) ([d8e6ed3](https://github.com/TimSchoenle/senec-v3-collector/commit/d8e6ed3741a1bcb2ac51f6b2ae13378697d2c76c))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#89](https://github.com/TimSchoenle/senec-v3-collector/issues/89)) ([83dd949](https://github.com/TimSchoenle/senec-v3-collector/commit/83dd9490a23642af745c5f95e5a04ae11066bf9a))
+
 ## [1.1.8](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.7...v1.1.8) (2026-06-15)
 
 
