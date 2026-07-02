@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.10](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.9...v1.1.10) (2026-07-02)
+
+
+### Miscellaneous
+
+* **deps:** update docker/build-push-action digest to 53b7df9 ([#97](https://github.com/TimSchoenle/senec-v3-collector/issues/97)) ([4d100b2](https://github.com/TimSchoenle/senec-v3-collector/commit/4d100b261833dc0e0322de29923a975fcd1e0cfb))
+* **deps:** update docker/setup-qemu-action digest to 96fe6ef ([#98](https://github.com/TimSchoenle/senec-v3-collector/issues/98)) ([8864ea1](https://github.com/TimSchoenle/senec-v3-collector/commit/8864ea1607c7e19ab4375a43337de402d3dbc60a))
+* **deps:** update rust crate anyhow to v1.0.103 ([#92](https://github.com/TimSchoenle/senec-v3-collector/issues/92)) ([d8e3a8f](https://github.com/TimSchoenle/senec-v3-collector/commit/d8e3a8f247084b60afb5f843c9a9d476ee1b047f))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.5 ([#96](https://github.com/TimSchoenle/senec-v3-collector/issues/96)) ([4955280](https://github.com/TimSchoenle/senec-v3-collector/commit/4955280c52c8a9f4e866cef9f711ae453ebcc6ed))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.6 ([#95](https://github.com/TimSchoenle/senec-v3-collector/issues/95)) ([7e4b258](https://github.com/TimSchoenle/senec-v3-collector/commit/7e4b2586566cfc481e25d206939eb3c4005db8d1))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#93](https://github.com/TimSchoenle/senec-v3-collector/issues/93)) ([656ea4b](https://github.com/TimSchoenle/senec-v3-collector/commit/656ea4b94c3813f65e1a0877b3a0f648c3c65161))
+
 ## [1.1.9](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.8...v1.1.9) (2026-06-25)
 
 
