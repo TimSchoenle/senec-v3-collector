@@ -1,6 +1,6 @@
 [package]
 name = "senec-discovery"
-version = "1.1.9"
+version = "1.1.10"
 edition.workspace = true
 license.workspace = true
 authors.workspace = true
