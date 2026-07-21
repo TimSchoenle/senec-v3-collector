@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.1.12](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.11...v1.1.12) (2026-07-21)
+
+
+### Miscellaneous
+
+* **deps:** update actions/checkout digest to 3d3c42e ([#131](https://github.com/TimSchoenle/senec-v3-collector/issues/131)) ([9ee25a9](https://github.com/TimSchoenle/senec-v3-collector/commit/9ee25a918861b3d63356077d3989be51b8ae4e1a))
+* **deps:** update github/codeql-action action to v4.37.1 ([#128](https://github.com/TimSchoenle/senec-v3-collector/issues/128)) ([565e918](https://github.com/TimSchoenle/senec-v3-collector/commit/565e9189ff12442f476f5bba1c2343582e0e81a2))
+* **deps:** update rust crate clap to v4.6.2 ([#123](https://github.com/TimSchoenle/senec-v3-collector/issues/123)) ([48ab597](https://github.com/TimSchoenle/senec-v3-collector/commit/48ab59705fc2c7f6b18b1f4a200f110f47f738ca))
+* **deps:** update rust crate regex to v1.13.1 ([#124](https://github.com/TimSchoenle/senec-v3-collector/issues/124)) ([b949516](https://github.com/TimSchoenle/senec-v3-collector/commit/b949516914433ffb1507d32c2a8c677451db1e14))
+* **deps:** update rust crate tokio to v1.52.4 ([#126](https://github.com/TimSchoenle/senec-v3-collector/issues/126)) ([050edf1](https://github.com/TimSchoenle/senec-v3-collector/commit/050edf1af5266e4a9944bc6b092deb4f9a8a52a8))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.15 ([#119](https://github.com/TimSchoenle/senec-v3-collector/issues/119)) ([226b144](https://github.com/TimSchoenle/senec-v3-collector/commit/226b14471eedac8a5310f30ec2346b2d4694d5d0))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.16 ([#125](https://github.com/TimSchoenle/senec-v3-collector/issues/125)) ([d849af7](https://github.com/TimSchoenle/senec-v3-collector/commit/d849af775a96ab0097314ac0f930867c646c3b2e))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.26 ([#121](https://github.com/TimSchoenle/senec-v3-collector/issues/121)) ([4ec5db8](https://github.com/TimSchoenle/senec-v3-collector/commit/4ec5db8817bfde6b5f5e4bded646a22353be5a91))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.27 ([#127](https://github.com/TimSchoenle/senec-v3-collector/issues/127)) ([d0b5980](https://github.com/TimSchoenle/senec-v3-collector/commit/d0b598039ca502c490f4ab96c57e1b529e3f6238))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.7 ([#132](https://github.com/TimSchoenle/senec-v3-collector/issues/132)) ([4d99950](https://github.com/TimSchoenle/senec-v3-collector/commit/4d999506d0440078c156a60ebaf1ecff88ca88d3))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.0 ([#122](https://github.com/TimSchoenle/senec-v3-collector/issues/122)) ([fad9369](https://github.com/TimSchoenle/senec-v3-collector/commit/fad93690f7a23ff825e68d1e872a2a0ed435b178))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#129](https://github.com/TimSchoenle/senec-v3-collector/issues/129)) ([8028fb5](https://github.com/TimSchoenle/senec-v3-collector/commit/8028fb563c28502fbd2338cd59dfcbb4b7d1bec4))
+* **deps:** lock file maintenance ([#130](https://github.com/TimSchoenle/senec-v3-collector/issues/130)) ([0b986d0](https://github.com/TimSchoenle/senec-v3-collector/commit/0b986d0bffa27e0757a431822f7c8c3c186da481))
+
 ## [1.1.11](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.10...v1.1.11) (2026-07-13)
 
 
