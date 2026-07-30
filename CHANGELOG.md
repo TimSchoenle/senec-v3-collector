@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.1.13](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.12...v1.1.13) (2026-07-29)
+
+
+### Miscellaneous
+
+* **deps:** update docker/login-action digest to 06fb636 ([#137](https://github.com/TimSchoenle/senec-v3-collector/issues/137)) ([f30b74e](https://github.com/TimSchoenle/senec-v3-collector/commit/f30b74e2026e0281ab02148c30d62191a0fc9e6c))
+* **deps:** update docker/login-action digest to 371161b ([#145](https://github.com/TimSchoenle/senec-v3-collector/issues/145)) ([114af5f](https://github.com/TimSchoenle/senec-v3-collector/commit/114af5f1e3400f240bc8f8fd5cd22cce127322ee))
+* **deps:** update docker/login-action digest to abd2ef4 ([#140](https://github.com/TimSchoenle/senec-v3-collector/issues/140)) ([f2c736f](https://github.com/TimSchoenle/senec-v3-collector/commit/f2c736fecda62f6de6b526bf2fd60c9784f27cfb))
+* **deps:** update docker/login-action digest to dbcb813 ([#146](https://github.com/TimSchoenle/senec-v3-collector/issues/146)) ([c2017f4](https://github.com/TimSchoenle/senec-v3-collector/commit/c2017f4463106148ea2231e4dcc86474084f4b16))
+* **deps:** update github/codeql-action action to v4.37.2 ([#141](https://github.com/TimSchoenle/senec-v3-collector/issues/141)) ([7c8a820](https://github.com/TimSchoenle/senec-v3-collector/commit/7c8a8205920f18e81652614c2c02d31838ba282e))
+* **deps:** update github/codeql-action action to v4.37.3 ([#142](https://github.com/TimSchoenle/senec-v3-collector/issues/142)) ([e260f23](https://github.com/TimSchoenle/senec-v3-collector/commit/e260f2368ac73004bca9a0c8ea2fcc10e5659e05))
+* **deps:** update rust crate clap to v4.6.3 ([#138](https://github.com/TimSchoenle/senec-v3-collector/issues/138)) ([2a7d754](https://github.com/TimSchoenle/senec-v3-collector/commit/2a7d754d67eb912eafb0a0b02b583118c1fd005d))
+* **deps:** update rust crate serde_json to v1.0.151 ([#133](https://github.com/TimSchoenle/senec-v3-collector/issues/133)) ([69520a2](https://github.com/TimSchoenle/senec-v3-collector/commit/69520a23232e1564e324b7511fa9ae007b4f9065))
+* **deps:** update rust crate tokio to v1.53.1 ([#139](https://github.com/TimSchoenle/senec-v3-collector/issues/139)) ([bd9c308](https://github.com/TimSchoenle/senec-v3-collector/commit/bd9c3083ce85d70c4fdda9e5c64651a3b0a05492))
+* **deps:** update timschoenle/actions/actions/rust/cargo-check to vactions-rust-cargo-check-v1.1.5 ([#135](https://github.com/TimSchoenle/senec-v3-collector/issues/135)) ([cd6dead](https://github.com/TimSchoenle/senec-v3-collector/commit/cd6dead2ad9d0c741c2342fd5f9c69b04b57e254))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.8 ([#136](https://github.com/TimSchoenle/senec-v3-collector/issues/136)) ([dba9a22](https://github.com/TimSchoenle/senec-v3-collector/commit/dba9a222364dd3075cce9f291440e8bebf6d49c5))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.1 ([#143](https://github.com/TimSchoenle/senec-v3-collector/issues/143)) ([37fbc20](https://github.com/TimSchoenle/senec-v3-collector/commit/37fbc208738ba38d764f15135956fc8353a21b95))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#144](https://github.com/TimSchoenle/senec-v3-collector/issues/144)) ([60c5ade](https://github.com/TimSchoenle/senec-v3-collector/commit/60c5ade68063e3fd6b0bf6eca365a2783d902e99))
+
 ## [1.1.12](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.11...v1.1.12) (2026-07-21)
 
 
