@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.1.14](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.13...v1.1.14) (2026-08-08)
+
+
+### Miscellaneous
+
+* **deps:** update docker/dockerfile docker tag to v1.26 ([#149](https://github.com/TimSchoenle/senec-v3-collector/issues/149)) ([24ae15f](https://github.com/TimSchoenle/senec-v3-collector/commit/24ae15fdbe268382193e94e6ec95f518e00c86f3))
+* **deps:** update github/codeql-action action to v4.37.4 ([#150](https://github.com/TimSchoenle/senec-v3-collector/issues/150)) ([c8865f0](https://github.com/TimSchoenle/senec-v3-collector/commit/c8865f09f8de81dac69fdc1ce8230c304a35b61e))
+* **deps:** update github/codeql-action action to v4.37.5 ([#158](https://github.com/TimSchoenle/senec-v3-collector/issues/158)) ([3579f80](https://github.com/TimSchoenle/senec-v3-collector/commit/3579f80b66f70eb18f59cc7edfb8f309796c75f8))
+* **deps:** update github/codeql-action action to v4.37.6 ([#160](https://github.com/TimSchoenle/senec-v3-collector/issues/160)) ([18713cd](https://github.com/TimSchoenle/senec-v3-collector/commit/18713cd6ebbf5cb4fa6be85c87265ae88b3ed571))
+* **deps:** update step-security/harden-runner action to v2.20.1 ([#162](https://github.com/TimSchoenle/senec-v3-collector/issues/162)) ([fd0406d](https://github.com/TimSchoenle/senec-v3-collector/commit/fd0406d6731c1ad8e408f6f9d98cc543a0129ffb))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.17 ([#152](https://github.com/TimSchoenle/senec-v3-collector/issues/152)) ([e454764](https://github.com/TimSchoenle/senec-v3-collector/commit/e454764bd18ffff31efee191b9c707851c42f8aa))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.18 ([#161](https://github.com/TimSchoenle/senec-v3-collector/issues/161)) ([3519a19](https://github.com/TimSchoenle/senec-v3-collector/commit/3519a196b75847c5501a7a52688c213d52a61964))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.28 ([#154](https://github.com/TimSchoenle/senec-v3-collector/issues/154)) ([91fe293](https://github.com/TimSchoenle/senec-v3-collector/commit/91fe29368d5665786cf9db3046884bf06155b348))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.29 ([#159](https://github.com/TimSchoenle/senec-v3-collector/issues/159)) ([8236f6d](https://github.com/TimSchoenle/senec-v3-collector/commit/8236f6db119a122e70c60493a912b487596ebb0e))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.10 ([#157](https://github.com/TimSchoenle/senec-v3-collector/issues/157)) ([48c05c1](https://github.com/TimSchoenle/senec-v3-collector/commit/48c05c14fdda32fa88d8ca9176ceb8224ce8b8ad))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.8 ([#151](https://github.com/TimSchoenle/senec-v3-collector/issues/151)) ([2607081](https://github.com/TimSchoenle/senec-v3-collector/commit/260708189be414a8a2a5e4ca8ac8409a612d1df9))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.9 ([#155](https://github.com/TimSchoenle/senec-v3-collector/issues/155)) ([363cd14](https://github.com/TimSchoenle/senec-v3-collector/commit/363cd1435f438bf56df8512d7219ecc2bf7f1e10))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.9 ([#147](https://github.com/TimSchoenle/senec-v3-collector/issues/147)) ([cd5c3d7](https://github.com/TimSchoenle/senec-v3-collector/commit/cd5c3d7f81b25636728fab66b19c12236abeb3a8))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.2 ([#156](https://github.com/TimSchoenle/senec-v3-collector/issues/156)) ([de85293](https://github.com/TimSchoenle/senec-v3-collector/commit/de8529397e4863edc047f9c860f2da48ce2755b6))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#153](https://github.com/TimSchoenle/senec-v3-collector/issues/153)) ([bb21524](https://github.com/TimSchoenle/senec-v3-collector/commit/bb21524f7c6137f1381c0446f2706069b7e7fa32))
+
 ## [1.1.13](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.12...v1.1.13) (2026-07-29)
 
 
