@@ -1,5 +1,23 @@
 # Changelog
 
+## [1.1.15](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.14...v1.1.15) (2026-08-16)
+
+
+### Miscellaneous
+
+* **deps:** update github/codeql-action action to v4.37.7 ([#171](https://github.com/TimSchoenle/senec-v3-collector/issues/171)) ([4100633](https://github.com/TimSchoenle/senec-v3-collector/commit/4100633cf310abaa79b3f53ec01717964724a065))
+* **deps:** update rust crate clap to v4.6.6 ([#163](https://github.com/TimSchoenle/senec-v3-collector/issues/163)) ([ff3284d](https://github.com/TimSchoenle/senec-v3-collector/commit/ff3284d8ff85a10bb0a638d337b7061d194fb4c9))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.19 ([#166](https://github.com/TimSchoenle/senec-v3-collector/issues/166)) ([de5549e](https://github.com/TimSchoenle/senec-v3-collector/commit/de5549ea3b82cc7dfb9eaaf945f0b8d72767476c))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.20 ([#168](https://github.com/TimSchoenle/senec-v3-collector/issues/168)) ([a210553](https://github.com/TimSchoenle/senec-v3-collector/commit/a21055398eadd3cb7ac3c3fd422f93258428f0a3))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.30 ([#167](https://github.com/TimSchoenle/senec-v3-collector/issues/167)) ([dda08d3](https://github.com/TimSchoenle/senec-v3-collector/commit/dda08d3d549d74f55e6ee58296e5add3d11152f1))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.31 ([#170](https://github.com/TimSchoenle/senec-v3-collector/issues/170)) ([038b59c](https://github.com/TimSchoenle/senec-v3-collector/commit/038b59c1d22607c2d0b8acf9945c0e1d07bb9220))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.11 ([#169](https://github.com/TimSchoenle/senec-v3-collector/issues/169)) ([89608fb](https://github.com/TimSchoenle/senec-v3-collector/commit/89608fb5797d4bb4f9a35e5167a096f8b1ffb8cc))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#165](https://github.com/TimSchoenle/senec-v3-collector/issues/165)) ([1c9dc3b](https://github.com/TimSchoenle/senec-v3-collector/commit/1c9dc3b74aed34693191a738eaa6916c2b861517))
+
 ## [1.1.14](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.13...v1.1.14) (2026-08-08)
 
 
