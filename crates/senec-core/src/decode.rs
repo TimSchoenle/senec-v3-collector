@@ -1,3 +1,21 @@
+//! Turning the device's hex-typed value strings into numbers.
+
+/// Decodes every numeric token in `raw`, in the order it appears.
+///
+/// A token the device did not type as a number is dropped, which covers both text values and the
+/// refusal words, so a string with nothing numeric in it decodes to an empty vector and no error.
+/// Tokens are cut on whitespace, brackets, quotes and commas, so a key whose value is a JSON list
+/// decodes to one number per element.
+///
+/// # Examples
+///
+/// ```
+/// use senec_core::decode::decode_numeric_values;
+///
+/// assert_eq!(decode_numeric_values(r#"["fl_3F800000","i1_FFFF"]"#), vec![1.0, -1.0]);
+/// assert!(decode_numeric_values("FORBIDDEN").is_empty());
+/// ```
+#[must_use]
 pub fn decode_numeric_values(raw: &str) -> Vec<f64> {
     if raw.trim().is_empty() {
         return Vec::new();
@@ -27,12 +45,20 @@ fn typed_tokens(raw: &str) -> Vec<String> {
         .collect()
 }
 
+/// Decodes one token such as `fl_3F800000`, or `None` when its type prefix is not a number.
+///
+/// The digit in the prefix is the leading digit of the bit width, so `i8` is 8-bit, `i1` 16-bit,
+/// `i3` 32-bit and `u6` 64-bit.
+#[expect(
+    clippy::cast_precision_loss,
+    reason = "a 64-bit token above 2^53 loses its low bits, and there is nowhere to put them: every consumer of this crate publishes f64 gauges"
+)]
 fn decode_token(token: &str) -> Option<f64> {
     let (kind, value) = token.split_once('_')?;
     match kind {
         "fl" => u32::from_str_radix(value, 16)
             .ok()
-            .map(|bits| f32::from_bits(bits) as f64),
+            .map(|bits| f64::from(f32::from_bits(bits))),
         "u8" | "u1" | "u3" | "u6" => u64::from_str_radix(value, 16).ok().map(|n| n as f64),
         "i8" => decode_signed_hex(value, 8),
         "i1" => decode_signed_hex(value, 16),
@@ -41,6 +67,10 @@ fn decode_token(token: &str) -> Option<f64> {
     }
 }
 
+#[expect(
+    clippy::cast_precision_loss,
+    reason = "`bits` is at most 32 here, so the cast is exact; clippy sees only the i128"
+)]
 fn decode_signed_hex(value: &str, bits: u8) -> Option<f64> {
     let raw = i128::from_str_radix(value, 16).ok()?;
     let sign_bit = 1i128 << (bits - 1);

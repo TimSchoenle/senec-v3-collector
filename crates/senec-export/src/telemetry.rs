@@ -2,7 +2,7 @@ use std::{
     fs,
     io::ErrorKind,
     path::{Path, PathBuf},
-    sync::{Arc, Mutex},
+    sync::{Arc, Mutex, PoisonError},
     time::{SystemTime, UNIX_EPOCH},
 };
 
@@ -10,6 +10,10 @@ use anyhow::{Context, Result, ensure};
 use prometheus::{Encoder, Gauge, GaugeVec, Opts, Registry, TextEncoder};
 use serde::{Deserialize, Serialize};
 
+/// The accumulating totals, and the poll time the next interval is measured from.
+///
+/// `last_timestamp_seconds` is `None` until the first update after startup, which is what starts
+/// a fresh interval on restart.
 #[derive(Debug, Default)]
 struct GridEconomicsState {
     last_timestamp_seconds: Option<f64>,
@@ -18,6 +22,15 @@ struct GridEconomicsState {
     house_consumption_energy_kwh_total: f64,
 }
 
+/// The persisted form of [`GridEconomicsState`], holding the three totals and nothing else.
+///
+/// The timestamp is deliberately not in here. Carrying it across a restart would mean assuming the
+/// last observed power held for the whole outage, which is the assumption most likely to be wrong
+/// exactly when the process was down.
+#[expect(
+    clippy::struct_field_names,
+    reason = "the field names are the JSON keys of the state file and the metrics they publish"
+)]
 #[derive(Debug, Clone, Serialize, Deserialize)]
 struct GridEconomicsSnapshot {
     grid_import_energy_kwh_total: f64,
@@ -26,7 +39,7 @@ struct GridEconomicsSnapshot {
 }
 
 impl GridEconomicsState {
-    fn from_snapshot(snapshot: GridEconomicsSnapshot) -> Self {
+    fn from_snapshot(snapshot: &GridEconomicsSnapshot) -> Self {
         Self {
             last_timestamp_seconds: None,
             grid_import_energy_kwh_total: snapshot.grid_import_energy_kwh_total,
@@ -44,6 +57,10 @@ impl GridEconomicsState {
     }
 }
 
+/// Every series the collector publishes, and the registry they are gathered from.
+///
+/// A clone shares the registry and the accumulated totals, which is how the poll loop and the HTTP
+/// handler hold what is really one exporter.
 #[derive(Clone)]
 pub struct PrometheusMetricsExporter {
     registry: Registry,
@@ -71,6 +88,24 @@ pub struct PrometheusMetricsExporter {
 }
 
 impl PrometheusMetricsExporter {
+    /// Creates the exporter with every gauge registered and the persisted totals restored.
+    ///
+    /// `site_id` labels every series except `senec_scrape_up`, `senec_poll_ok` and
+    /// `senec_poll_timestamp_seconds`, which carry no labels. The two prices are republished as
+    /// gauges and applied to the whole accumulated history on each update, so changing one
+    /// reprices the past along with the future. A state file that does not exist yet starts the
+    /// totals at zero; one that cannot be read stops the process instead of silently resetting
+    /// them. A `None` path turns persistence off, so the totals start at zero on every start.
+    ///
+    /// # Errors
+    ///
+    /// Fails when either price is negative, when the state file exists but cannot be read or
+    /// parsed, or when the registry rejects a gauge.
+    #[expect(
+        clippy::too_many_lines,
+        reason = "one construction and one registration per series; splitting it would hide what \
+                  the registry holds"
+    )]
     pub fn new(
         site_id: &str,
         grid_import_price_eur_per_kwh: f64,
@@ -88,6 +123,7 @@ impl PrometheusMetricsExporter {
 
         let initial_economics_state = match economics_state_path.as_deref() {
             Some(path) => read_grid_economics_snapshot(path)?
+                .as_ref()
                 .map(GridEconomicsState::from_snapshot)
                 .unwrap_or_default(),
             None => GridEconomicsState::default(),
@@ -312,6 +348,9 @@ impl PrometheusMetricsExporter {
         Ok(exporter)
     }
 
+    /// Publishes one decoded reading as `senec_value`, labelled with the object, key and index.
+    ///
+    /// The gauge holds that value until it is set again, even across a failed cycle.
     pub fn record_metric(&self, object: &str, key: &str, index: usize, value: f64) {
         let index_label = index.to_string();
         self.values
@@ -319,11 +358,25 @@ impl PrometheusMetricsExporter {
             .set(value);
     }
 
+    /// Records the outcome of a poll cycle and stamps it with the current time.
+    ///
+    /// The timestamp advances for a failed cycle too: it dates the last attempt, not the last
+    /// success.
     pub fn mark_poll_result(&self, ok: bool) {
         self.poll_ok.set(if ok { 1.0 } else { 0.0 });
         self.poll_timestamp_seconds.set(now_epoch_seconds());
     }
 
+    /// Integrates the current power readings into the running energy and money totals.
+    ///
+    /// `grid_power_w` carries the device's sign convention, positive while importing and negative
+    /// while exporting; `house_power_w` is unsigned. `None` reads as zero watts. Each increment is
+    /// the power times the wall-clock seconds since the previous call, so the first call after
+    /// startup sets that baseline and adds nothing.
+    ///
+    /// The totals are written to the state file, when the exporter has one, before returning. A
+    /// write failure is reported on stderr and otherwise ignored, so an unwritable state path
+    /// costs the totals at the next restart rather than stopping the collector.
     pub fn update_grid_economics(&self, grid_power_w: Option<f64>, house_power_w: Option<f64>) {
         let now = now_epoch_seconds();
 
@@ -339,10 +392,12 @@ impl PrometheusMetricsExporter {
             .set(self.grid_export_price_eur_per_kwh);
 
         let snapshot = {
+            // A panic under this lock leaves the totals mid-update. Taking them anyway keeps the
+            // collector polling; refusing would end every later cycle for one bad one.
             let mut state = self
                 .economics_state
                 .lock()
-                .unwrap_or_else(|poisoned| poisoned.into_inner());
+                .unwrap_or_else(PoisonError::into_inner);
 
             if let Some(last_timestamp_seconds) = state.last_timestamp_seconds {
                 let delta_seconds = (now - last_timestamp_seconds).max(0.0);
@@ -372,6 +427,14 @@ impl PrometheusMetricsExporter {
         }
     }
 
+    /// Encodes every registered series in the Prometheus text exposition format.
+    ///
+    /// Sets `senec_scrape_up` to 1 while rendering, so that series reports the endpoint answering
+    /// rather than the device.
+    ///
+    /// # Errors
+    ///
+    /// Propagates a failure from the text encoder.
     pub fn render(&self) -> Result<String> {
         self.scrape_up.set(1.0);
         let metric_families = self.registry.gather();
@@ -386,7 +449,7 @@ impl PrometheusMetricsExporter {
         let state = self
             .economics_state
             .lock()
-            .unwrap_or_else(|poisoned| poisoned.into_inner());
+            .unwrap_or_else(PoisonError::into_inner);
 
         self.set_derived_economics_metrics(&state);
     }
@@ -428,14 +491,14 @@ impl PrometheusMetricsExporter {
 fn now_epoch_seconds() -> f64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
-        .map(|d| d.as_secs_f64())
-        .unwrap_or(0.0)
+        .map_or(0.0, |d| d.as_secs_f64())
 }
 
 fn with_site_label(opts: Opts, site_id: &str) -> Opts {
     opts.const_label("site_id", site_id.to_string())
 }
 
+/// Reads the persisted totals, or `None` when the file has not been written yet.
 fn read_grid_economics_snapshot(path: &Path) -> Result<Option<GridEconomicsSnapshot>> {
     match fs::read_to_string(path) {
         Ok(payload) => {
@@ -474,6 +537,7 @@ fn write_grid_economics_snapshot(path: &Path, snapshot: &GridEconomicsSnapshot) 
         )
     })?;
 
+    // `fs::rename` will not replace an existing file on Windows, so the old one goes first.
     if path.exists() {
         fs::remove_file(path)
             .with_context(|| format!("failed to replace state file {}", path.display()))?;
@@ -492,7 +556,7 @@ fn write_grid_economics_snapshot(path: &Path, snapshot: &GridEconomicsSnapshot) 
 
 #[cfg(test)]
 mod tests {
-    use std::path::PathBuf;
+    use std::{path::PathBuf, sync::PoisonError};
 
     use super::{
         GridEconomicsSnapshot, PrometheusMetricsExporter, now_epoch_seconds,
@@ -569,7 +633,7 @@ mod tests {
             let mut state = exporter
                 .economics_state
                 .lock()
-                .unwrap_or_else(|poisoned| poisoned.into_inner());
+                .unwrap_or_else(PoisonError::into_inner);
             state.last_timestamp_seconds = Some(now_epoch_seconds() - 3600.0);
         }
 
