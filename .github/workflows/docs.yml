@@ -1,0 +1,143 @@
+name: Docs
+
+# README.md is generated from .github/templates/README.md.hbs and committed. This workflow is what
+# makes that claim true in both directions.
+#
+# On a pull request it re-renders the file and commits the result to the branch, so the README is
+# never edited by hand and a change to the template arrives rendered. On a push to main, and on a
+# pull request from a fork that has no token to commit with, it renders to nothing and compares
+# instead, failing when the committed file is stale.
+#
+# Without the second half, editing README.md directly would appear to work right up until the next
+# pull request silently reverted it.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# Not scoped to this workflow alone: the auto-format job in build.yaml also commits to the pull
+# request branch, and the API call that makes a verified commit rejects one whose parent has moved.
+# Two writers racing would leave one failing for a reason no reader could act on, so they queue.
+# `cancel-in-progress: false` for the same reason: a cancelled run here means a branch left holding
+# a half-rendered file.
+concurrency:
+  group: branch-writes-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions: {}
+
+jobs:
+  render:
+    name: Render
+    # Forks get no secrets, so the App token would be empty and the commit could not be pushed to
+    # their branch anyway. The verify job below picks those pull requests up instead.
+    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    # Where ACTIONS_MAINTENANCE_APP_ID and ACTIONS_MAINTENANCE_PRIVATE_KEY live, as in the
+    # auto-format job of build.yaml.
+    environment:
+      name: ci
+      deployment: false
+    permissions:
+      contents: read # the write happens with the App token below, not with GITHUB_TOKEN
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
+        with:
+          egress-policy: audit
+
+      # An App installation token, so the commit is verified and, unlike one made with
+      # GITHUB_TOKEN, re-triggers the checks on the branch it lands on.
+      - name: Generate Bot Token
+        id: generate_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.ACTIONS_MAINTENANCE_APP_ID }}
+          private-key: ${{ secrets.ACTIONS_MAINTENANCE_PRIVATE_KEY }}
+          permission-contents: write
+
+      # The head of the branch, not the merge commit: the render has to read the template the pull
+      # request proposes, and the commit has to land on top of what is there now.
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.head_ref }}
+          persist-credentials: false
+
+      # Everything the template interpolates, read off the files in the checkout: the repository
+      # coordinates, the release from Cargo.toml, and the table of documents walked out of docs/.
+      # There is no `extra` here because this repository has no generator of its own.
+      #
+      # `branch` is the repository's default branch and not `github.ref_name`, which on a pull
+      # request is `<number>/merge`. Rendering that into the badge URLs would make this job and the
+      # verify job below disagree by construction, and every merge would then fail the gate for a
+      # reason that is not in its diff.
+      - name: Collect the README payload
+        id: variables
+        uses: TimSchoenle/actions/actions/common/readme-variables@b5b5c9e047f00ffa00b7772536c8bdb4f158f706 # tag=actions-common-readme-variables-v1.1.0
+        with:
+          branch: ${{ github.event.repository.default_branch }}
+
+      - name: Render and commit the README
+        id: readme
+        uses: TimSchoenle/actions/actions/common/render-template-and-commit@15d83f02081c9dc8a844646199c63792dcccdfa8 # tag=actions-common-render-template-and-commit-v1.1.3
+        with:
+          template: .github/templates/README.md.hbs
+          output: README.md
+          variables: ${{ steps.variables.outputs.variables }}
+          token: ${{ steps.generate_token.outputs.token }}
+          commit_message: 'docs: render README from template'
+
+      - name: Summarise
+        env:
+          COMMITTED: ${{ steps.readme.outputs.changes_detected }}
+          COMMIT_URL: ${{ steps.readme.outputs.commit_url }}
+        run: |
+          set -euo pipefail
+          if [ "${COMMITTED}" = "true" ]; then
+            echo "README.md re-rendered: ${COMMIT_URL}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "README.md already matched its template." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+  # The drift gate. Make this a required check once the pull request that adds it has merged.
+  verify:
+    name: readme
+    # The complement of `render`: the pushes to main that no pull request rendered, and the fork
+    # pull requests that could not be committed to. Between the two conditions, every event this
+    # workflow sees is handled by exactly one job.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      # The same step as in `render`, with the same inputs. It has to be: this job reproduces that
+      # render and compares, so any difference between the two would be a gate that passes on a
+      # stale file.
+      - name: Collect the README payload
+        id: variables
+        uses: TimSchoenle/actions/actions/common/readme-variables@b5b5c9e047f00ffa00b7772536c8bdb4f158f706 # tag=actions-common-readme-variables-v1.1.0
+        with:
+          branch: ${{ github.event.repository.default_branch }}
+
+      # Writes nothing; fails with the first differing line when README.md is stale.
+      - name: Verify README.md is current
+        uses: TimSchoenle/actions/actions/common/render-template@3b7d152374ee63e720e7c16bed8b088b40554911 # tag=actions-common-render-template-v1.1.1
+        with:
+          template: .github/templates/README.md.hbs
+          output: README.md
+          variables: ${{ steps.variables.outputs.variables }}
+          check: 'true'

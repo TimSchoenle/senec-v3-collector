@@ -14,12 +14,12 @@ gate cannot check those two against each other.
 Nothing in this comment may contain a mustache that is not a real reference.
 -->
 
-# senec-v3-collector
+# {{ repo.name }}
 
-SENEC v3 telemetry collector that discovers device keys and exposes pull-based Prometheus metrics.
+{{#if repo.description}}{{ repo.description }}{{else}}SENEC v3 telemetry collector that discovers device keys and exposes pull-based Prometheus metrics.{{/if}}
 
-[![Release](https://img.shields.io/github/v/release/TimSchoenle/senec-v3-collector?sort=semver)](https://github.com/TimSchoenle/senec-v3-collector/releases)
-[![Build](https://img.shields.io/github/actions/workflow/status/TimSchoenle/senec-v3-collector/build.yaml?branch=main)](https://github.com/TimSchoenle/senec-v3-collector/actions/workflows/build.yaml)
+[![Release](https://img.shields.io/github/v/release/{{ repo.slug }}?sort=semver)]({{ repo.url }}/releases)
+[![Build](https://img.shields.io/github/actions/workflow/status/{{ repo.slug }}/build.yaml?branch={{ repo.branch }})]({{ repo.url }}/actions/workflows/build.yaml)
 
 ## What this is
 
@@ -49,7 +49,7 @@ docker run --rm -p 9464:9464 \
   -v "$PWD/deploy/profiles/generated:/app/profiles/generated:ro" \
   -e SENEC_BASE_URL=https://192.168.178.36 \
   -e SENEC_PROFILE_PATH=/app/profiles/generated/senec-profile-live.json \
-  timschoenle/senec-v3-collector:v1.1.15
+  {{ lower repo.owner }}/{{ repo.name }}:{{ release.tag }}
 ```
 
 Then scrape `http://localhost:9464/metrics`. Point `SENEC_BASE_URL` at your own device; that
@@ -91,7 +91,7 @@ address is a default, not a discovery mechanism.
 ### Docker
 
 ```bash
-docker pull timschoenle/senec-v3-collector:v1.1.15
+docker pull {{ lower repo.owner }}/{{ repo.name }}:{{ release.tag }}
 ```
 
 Built for `linux/amd64` only, from an `x86_64-unknown-linux-musl` target. Every release is signed
@@ -110,8 +110,8 @@ one persists.
 ### From source
 
 ```bash
-git clone https://github.com/TimSchoenle/senec-v3-collector.git
-cd senec-v3-collector
+git clone {{ repo.url }}.git
+cd {{ repo.name }}
 cargo build --release --workspace
 ```
 
@@ -222,16 +222,22 @@ be writable. `/app/profiles/generated` can be mounted read-only.
 | | Supported |
 | --- | --- |
 | Device | SENEC v3, through the `/lala.cgi` JSON API |
+{{#if toolchain.msrv}}
+| Rust | {{ toolchain.msrv }} |
+{{/if}}
+{{#if toolchain.edition}}
+| Rust edition | {{ toolchain.edition }} |
+{{/if}}
 | Platforms | `linux/amd64` |
-| Image | `timschoenle/senec-v3-collector` |
+| Image | `{{ lower repo.owner }}/{{ repo.name }}` |
 | Exposition | Prometheus text format `0.0.4` |
 
 ## Documentation
 
 | Document | Summary |
 | --- | --- |
-| [`docs/METRICS.md`](docs/METRICS.md) | Every series the collector exports, and how the derived energy and cost counters are computed from two of the device's own keys. |
-| [`docs/MONITORING_STACK.md`](docs/MONITORING_STACK.md) | Three Compose files under deploy/compose run the collector next to a scraper and a dashboard, so a working setup is one command rather than three services to wire together. |
+{{#each docs}}| [`{{ path }}`]({{ path }}) | {{ default (mdCell summary) "—" }} |
+{{/each}}
 
 That table is walked out of `docs/` rather than maintained by hand, so a document added in a pull
 request is listed by the same pull request.
@@ -255,4 +261,4 @@ network exposes every key in the profile.
 
 ## License
 
-[LICENSE](LICENSE) has the terms.
+{{#if repo.license}}`{{ repo.license }}`. {{/if}}[LICENSE](LICENSE) has the terms.
