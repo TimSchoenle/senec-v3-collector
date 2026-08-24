@@ -1,4 +1,20 @@
-use std::{collections::BTreeMap, net::SocketAddr, path::PathBuf, time::Duration};
+//! Polls a SENEC v3 on an interval and serves what it answers at `/metrics`.
+//!
+//! # Failure posture
+//!
+//! Everything fatal happens at startup: a profile that cannot be read or that lists no keys, a
+//! state file that exists but cannot be parsed, a negative tariff, and a metrics port that cannot
+//! be bound. A failed cycle is logged, sets `senec_poll_ok` to 0, and is followed by the next
+//! tick. Under `--once` that same failure becomes the exit status. The metrics server runs as a
+//! spawned task, so a serve failure after the bind succeeded logs and ends that task while the
+//! poll loop keeps going against a dead scrape endpoint. What a scrape can and cannot tell about
+//! a failed cycle is in `docs/METRICS.md`.
+//!
+//! Only `SIGINT` is handled, and PID 1 has no default disposition for `SIGTERM`, so `docker stop`
+//! waits out its full grace period. Nothing is lost to that, because the economics state file is
+//! written at the end of every successful cycle rather than at shutdown.
+
+use std::{collections::BTreeSet, net::SocketAddr, path::PathBuf, time::Duration};
 
 use anyhow::{Context, Result};
 use axum::{
@@ -261,6 +277,7 @@ async fn metrics_handler(State(exporter): State<PrometheusMetricsExporter>) -> i
     }
 }
 
+/// Queries every key in the profile once and records what decodes.
 async fn poll_once(
     client: &SenecClient,
     profile: &MetricProfile,
@@ -268,7 +285,7 @@ async fn poll_once(
 ) -> Result<()> {
     let response = client.query_strings(&profile.objects).await?;
 
-    let mut exported = 0usize;
+    let mut recorded = 0usize;
     let mut grid_power_w: Option<f64> = None;
     let mut house_power_w: Option<f64> = None;
 
@@ -276,6 +293,8 @@ async fn poll_once(
         for (key, raw) in values {
             let parsed = decode_numeric_values(&raw);
             for (index, value) in parsed.into_iter().enumerate() {
+                // Both keys are scalars, so only element 0 exists; the guard keeps a firmware that
+                // starts returning a list from feeding its tail into the accumulator.
                 if object == "ENERGY" && index == 0 {
                     match key.as_str() {
                         "GUI_GRID_POW" => grid_power_w = Some(value),
@@ -284,14 +303,14 @@ async fn poll_once(
                     }
                 }
                 exporter.record_metric(&object, &key, index, value);
-                exported += 1;
+                recorded += 1;
             }
         }
     }
 
     exporter.update_grid_economics(grid_power_w, house_power_w);
     exporter.mark_poll_result(true);
-    tracing::debug!(metrics = exported, "poll cycle completed");
+    tracing::debug!(metrics = recorded, "poll cycle completed");
     Ok(())
 }
 
@@ -303,22 +322,26 @@ fn normalize_metrics_path(path: &str) -> String {
     }
 }
 
+/// Drops blank keys and deduplicates the rest, then drops any object left with no keys.
+///
+/// A key listed twice is polled once. A profile of nothing but blanks comes back empty, which
+/// fails the start instead of polling nothing on every tick.
 fn normalize_profile(mut profile: MetricProfile) -> MetricProfile {
     let objects = profile
         .objects
         .into_iter()
         .filter_map(|(object, keys)| {
-            let mut unique = BTreeMap::<String, ()>::new();
+            let mut unique = BTreeSet::<String>::new();
             for key in keys {
                 if !key.trim().is_empty() {
-                    unique.insert(key, ());
+                    unique.insert(key);
                 }
             }
 
             if unique.is_empty() {
                 None
             } else {
-                Some((object, unique.into_keys().collect::<Vec<_>>()))
+                Some((object, unique.into_iter().collect::<Vec<_>>()))
             }
         })
         .collect();

@@ -1,3 +1,12 @@
+//! Asks a device which keys it answers for, and writes the profile the collector reads.
+//!
+//! # Failure posture
+//!
+//! Any failure ends the run, and the output file is written once, after the device has answered
+//! everything. A device that stops answering halfway therefore leaves the previous profile in
+//! place rather than a truncated one. Rerunning is the recovery: discovery reads from the device
+//! and writes nothing to it.
+
 use std::{fs, path::PathBuf, time::Duration};
 
 use anyhow::{Context, Result};

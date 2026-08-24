@@ -8,6 +8,19 @@ use senec_core::{
     model::{MetricProfile, ValueStatus},
 };
 
+/// Returns the objects and keys the device answers with a value for.
+///
+/// A candidate survives only when its answer classifies as [`ValueStatus::Ok`], and an object left
+/// with no surviving key is dropped. An HTML page that fails to load is logged at warn and skipped,
+/// so a device serving a partial UI yields fewer keys and no error.
+///
+/// One request fetches `/js/senec.min.js`, then one per HTML page it names plus `/`, then one per
+/// chunk of candidate keys.
+///
+/// # Errors
+///
+/// Fails when `/js/senec.min.js` cannot be fetched, or when the bulk query through
+/// [`SenecClient::query_strings`] fails.
 pub async fn discover(client: &SenecClient) -> Result<MetricProfile> {
     let candidates = build_candidates(client).await?;
 
@@ -73,6 +86,8 @@ async fn build_candidates(client: &SenecClient) -> Result<BTreeMap<String, BTree
         candidates.entry(object).or_default().insert(key);
     }
 
+    // An element id in the UI is the object name with the key appended, so the longest known
+    // object that prefixes an id splits it. Objects are sorted, and the first match wins.
     for id in extract_ids(&senec_js)? {
         for object in &objects {
             if id.starts_with(object) && id.len() > object.len() {

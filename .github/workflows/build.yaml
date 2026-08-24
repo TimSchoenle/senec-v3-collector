@@ -80,10 +80,45 @@ jobs:
       - name: Run Clippy
         uses: TimSchoenle/actions/actions/rust/clippy@dcfb46a6a17ad8565db74057ce60278953056ad5 # tag=actions-rust-clippy-v1.1.9
 
+  doc:
+    name: Doc
+    runs-on: ubuntu-latest
+    env:
+      # The rustdoc lints in [workspace.lints.rustdoc] run under rustdoc and nowhere else, so
+      # neither cargo check nor clippy can fail a broken intra-doc link. This job is the only
+      # place it goes red.
+      RUSTDOCFLAGS: '-D warnings'
+    permissions:
+      contents: read # Required to checkout the code
+    steps:
+      - name: Harden Runner
+        uses: step-security/harden-runner@05e31511f85b41b11d1cf0ef85d0992719546e2c # v2.21.0
+        with:
+          egress-policy: audit
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      # The same pinned toolchain the shared cargo-check, test and clippy actions install, so the
+      # documentation is built by the rustc the rest of the workflow already agreed on.
+      - name: Install stable toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+
+      # No crate here declares a feature, so one pass renders every page there is.
+      - name: Build the documentation
+        run: cargo doc --workspace --all-features --no-deps
+
+      - name: Run the doctests
+        run: cargo test --doc --workspace --all-features
+
   docker-build-test:
     name: Docker Build and Test
     runs-on: ubuntu-latest
-    needs: check
+    # doc is here so the documentation lints block a merge. A job in no needs: list is advisory,
+    # and an advisory job goes red on main and stays there.
+    needs: [ check, doc ]
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}-docker
       cancel-in-progress: true
