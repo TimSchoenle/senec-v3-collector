@@ -15,7 +15,7 @@ use senec_core::{
 /// so a device serving a partial UI yields fewer keys and no error.
 ///
 /// One request fetches `/js/senec.min.js`, then one per HTML page it names plus `/`, then one per
-/// chunk of candidate keys, so this takes as long as the device needs to answer all of them.
+/// chunk of candidate keys.
 ///
 /// # Errors
 ///
