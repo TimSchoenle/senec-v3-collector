@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.16](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.15...v1.1.16) (2026-08-24)
+
+
+### Documentation
+
+* render the README from the shared payload action ([#177](https://github.com/TimSchoenle/senec-v3-collector/issues/177)) ([b89ec08](https://github.com/TimSchoenle/senec-v3-collector/commit/b89ec0841e21e64ad778ed8ac7828accf85b2180))
+* rewrite the doc comments to the estate standard ([#178](https://github.com/TimSchoenle/senec-v3-collector/issues/178)) ([9f6d1d3](https://github.com/TimSchoenle/senec-v3-collector/commit/9f6d1d36cd11355a2fc374264d92af4a554a50fd))
+
+
+### Miscellaneous
+
+* **deps:** update docker/setup-buildx-action digest to 37fe631 ([#176](https://github.com/TimSchoenle/senec-v3-collector/issues/176)) ([c68f5ff](https://github.com/TimSchoenle/senec-v3-collector/commit/c68f5ff4c817b5621bab10c9cdf2a976b3cac143))
+* **deps:** update step-security/harden-runner action to v2.21.0 ([#172](https://github.com/TimSchoenle/senec-v3-collector/issues/172)) ([6bde07a](https://github.com/TimSchoenle/senec-v3-collector/commit/6bde07abec08ac7e78d7a2910e2d153d49e78fbc))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.21 ([#174](https://github.com/TimSchoenle/senec-v3-collector/issues/174)) ([9dd390d](https://github.com/TimSchoenle/senec-v3-collector/commit/9dd390d013b68942d2b395d318af461ed423f373))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.32 ([#175](https://github.com/TimSchoenle/senec-v3-collector/issues/175)) ([3517575](https://github.com/TimSchoenle/senec-v3-collector/commit/35175756de3770d26bf74954a72b0522101dbfa9))
+
 ## [1.1.15](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.14...v1.1.15) (2026-08-16)
 
 
