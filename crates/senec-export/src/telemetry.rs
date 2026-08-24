@@ -23,10 +23,9 @@ struct GridEconomicsState {
 }
 
 /// The persisted form of [`GridEconomicsState`], holding the three totals and nothing else.
-///
-/// The timestamp is deliberately not in here. Carrying it across a restart would mean assuming the
-/// last observed power held for the whole outage, which is the assumption most likely to be wrong
-/// exactly when the process was down.
+// The timestamp is deliberately not in here. Carrying it across a restart would mean assuming the
+// last observed power held for the whole outage, which is the assumption most likely to be wrong
+// exactly when the process was down.
 #[expect(
     clippy::struct_field_names,
     reason = "the field names are the JSON keys of the state file and the metrics they publish"
@@ -59,8 +58,7 @@ impl GridEconomicsState {
 
 /// Every series the collector publishes, and the registry they are gathered from.
 ///
-/// A clone shares the registry and the accumulated totals, which is how the poll loop and the HTTP
-/// handler hold what is really one exporter.
+/// A clone shares the registry and the accumulated totals.
 #[derive(Clone)]
 pub struct PrometheusMetricsExporter {
     registry: Registry,
@@ -94,8 +92,8 @@ impl PrometheusMetricsExporter {
     /// `senec_poll_timestamp_seconds`, which carry no labels. The two prices are republished as
     /// gauges and applied to the whole accumulated history on each update, so changing one
     /// reprices the past along with the future. A state file that does not exist yet starts the
-    /// totals at zero; one that cannot be read stops the process instead of silently resetting
-    /// them. A `None` path turns persistence off, so the totals start at zero on every start.
+    /// totals at zero. A `None` path turns persistence off, so the totals start at zero on every
+    /// start.
     ///
     /// # Errors
     ///
@@ -429,12 +427,12 @@ impl PrometheusMetricsExporter {
 
     /// Encodes every registered series in the Prometheus text exposition format.
     ///
-    /// Sets `senec_scrape_up` to 1 while rendering, so that series reports the endpoint answering
-    /// rather than the device.
+    /// `senec_scrape_up` is set to 1 here and never cleared, so it reports the endpoint answering
+    /// and says nothing about the device.
     ///
     /// # Errors
     ///
-    /// Propagates a failure from the text encoder.
+    /// Fails when the encoder cannot write a gathered family, or when its output is not UTF-8.
     pub fn render(&self) -> Result<String> {
         self.scrape_up.set(1.0);
         let metric_families = self.registry.gather();

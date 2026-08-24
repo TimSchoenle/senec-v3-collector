@@ -2,9 +2,10 @@
 //!
 //! A query to `/lala.cgi` is a JSON object of objects in which every wanted key is mapped to an
 //! empty string. The device answers with the same shape, each key now holding either a hex-typed
-//! number, a list of them, or one of four refusal words. [`client`] performs that exchange,
-//! [`decode`] turns the strings into numbers, and [`model`] holds both the key list a caller asks
-//! with and the classification of what comes back. [`profile`] reads that list off disk.
+//! number, a list of them, or one of four refusal words.
+//!
+//! Finding a device on the network belongs to `senec-discovery`. Publishing what it said belongs
+//! to `senec-export`.
 
 pub mod client;
 pub mod decode;

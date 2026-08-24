@@ -101,6 +101,11 @@ jobs:
         with:
           persist-credentials: false
 
+      # The same pinned toolchain the shared cargo-check, test and clippy actions install, so the
+      # documentation is built by the rustc the rest of the workflow already agreed on.
+      - name: Install stable toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1.17.0
+
       # No crate here declares a feature, so one pass renders every page there is.
       - name: Build the documentation
         run: cargo doc --workspace --all-features --no-deps
@@ -111,7 +116,9 @@ jobs:
   docker-build-test:
     name: Docker Build and Test
     runs-on: ubuntu-latest
-    needs: check
+    # doc is here so the documentation lints block a merge. A job in no needs: list is advisory,
+    # and an advisory job goes red on main and stays there.
+    needs: [ check, doc ]
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}-docker
       cancel-in-progress: true

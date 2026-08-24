@@ -4,10 +4,11 @@
 //!
 //! Everything fatal happens at startup: a profile that cannot be read or that lists no keys, a
 //! state file that exists but cannot be parsed, a negative tariff, and a metrics port that cannot
-//! be bound. Past that the process is meant to outlive the device it polls. A failed cycle is
-//! logged, sets `senec_poll_ok` to 0, and is followed by the next tick. Under `--once` that same
-//! failure becomes the exit status. What a scrape can and cannot tell about a failed cycle is in
-//! `docs/METRICS.md`.
+//! be bound. A failed cycle is logged, sets `senec_poll_ok` to 0, and is followed by the next
+//! tick. Under `--once` that same failure becomes the exit status. The metrics server runs as a
+//! spawned task, so a serve failure after the bind succeeded logs and ends that task while the
+//! poll loop keeps going against a dead scrape endpoint. What a scrape can and cannot tell about
+//! a failed cycle is in `docs/METRICS.md`.
 //!
 //! Only `SIGINT` is handled, and PID 1 has no default disposition for `SIGTERM`, so `docker stop`
 //! waits out its full grace period. Nothing is lost to that, because the economics state file is
@@ -321,8 +322,10 @@ fn normalize_metrics_path(path: &str) -> String {
     }
 }
 
-/// Drops blank keys and any object left with none, so a profile of nothing but blanks fails the
-/// start instead of polling nothing on every tick.
+/// Drops blank keys and deduplicates the rest, then drops any object left with no keys.
+///
+/// A key listed twice is polled once. A profile of nothing but blanks comes back empty, which
+/// fails the start instead of polling nothing on every tick.
 fn normalize_profile(mut profile: MetricProfile) -> MetricProfile {
     let objects = profile
         .objects
