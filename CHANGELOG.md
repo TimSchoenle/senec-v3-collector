@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.1.17](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.16...v1.1.17) (2026-08-31)
+
+
+### Miscellaneous
+
+* **deps:** update github/codeql-action action to v4.37.8 ([#179](https://github.com/TimSchoenle/senec-v3-collector/issues/179)) ([15adf29](https://github.com/TimSchoenle/senec-v3-collector/commit/15adf29b109eb60121f7291877c8602719447d40))
+* **deps:** update github/codeql-action action to v4.37.9 ([#181](https://github.com/TimSchoenle/senec-v3-collector/issues/181)) ([144b773](https://github.com/TimSchoenle/senec-v3-collector/commit/144b773d84d3d05784e1c39786a8f8001db4b1d0))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.33 ([#183](https://github.com/TimSchoenle/senec-v3-collector/issues/183)) ([35e5bbc](https://github.com/TimSchoenle/senec-v3-collector/commit/35e5bbc10653a2aa767d6f65f76b232e09df64d1))
+* **deps:** update timschoenle/actions/actions/common/readme-variables to vactions-common-readme-variables-v1.1.1 ([#184](https://github.com/TimSchoenle/senec-v3-collector/issues/184)) ([67a0735](https://github.com/TimSchoenle/senec-v3-collector/commit/67a0735f4df84d48f3c822d5772c9aee6fb21391))
+* **deps:** update timschoenle/actions/actions/common/render-template to vactions-common-render-template-v1.1.2 ([#185](https://github.com/TimSchoenle/senec-v3-collector/issues/185)) ([389878c](https://github.com/TimSchoenle/senec-v3-collector/commit/389878c83156789eb8976136ebd5d679aba7a8b8))
+* **deps:** update timschoenle/actions/actions/common/render-template-and-commit to vactions-common-render-template-and-commit-v1.1.4 ([#182](https://github.com/TimSchoenle/senec-v3-collector/issues/182)) ([063132f](https://github.com/TimSchoenle/senec-v3-collector/commit/063132f11e6b6386fd29e57136e035ecd09b8058))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.12 ([#186](https://github.com/TimSchoenle/senec-v3-collector/issues/186)) ([1e15de7](https://github.com/TimSchoenle/senec-v3-collector/commit/1e15de71116c1bc93be3a8d481dfead9849cd4cf))
+* **deps:** update timschoenle/actions/actions/rust/cargo-check to vactions-rust-cargo-check-v1.1.6 ([#187](https://github.com/TimSchoenle/senec-v3-collector/issues/187)) ([9a4cd2d](https://github.com/TimSchoenle/senec-v3-collector/commit/9a4cd2dd5319489760043a10fc6457e34bc2387c))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.10 ([#188](https://github.com/TimSchoenle/senec-v3-collector/issues/188)) ([cc53852](https://github.com/TimSchoenle/senec-v3-collector/commit/cc5385256134423bcfae23e1ef7cd4132c279bc2))
+* **deps:** update timschoenle/actions/actions/rust/test to vactions-rust-test-v1.1.2 ([#189](https://github.com/TimSchoenle/senec-v3-collector/issues/189)) ([0423433](https://github.com/TimSchoenle/senec-v3-collector/commit/042343398a5488a8d5f141e2b9ba97a87a9435d9))
+
 ## [1.1.16](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.15...v1.1.16) (2026-08-24)
 
 
