@@ -1,5 +1,32 @@
 # Changelog
 
+## [1.1.18](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.17...v1.1.18) (2026-09-07)
+
+
+### Miscellaneous
+
+* **deps:** update docker/dockerfile docker tag to v1.27 ([#200](https://github.com/TimSchoenle/senec-v3-collector/issues/200)) ([95b695a](https://github.com/TimSchoenle/senec-v3-collector/commit/95b695a4eed61a36f155986ce1db90e07bff850c))
+* **deps:** update docker/setup-qemu-action digest to 1f40c72 ([#195](https://github.com/TimSchoenle/senec-v3-collector/issues/195)) ([ddc1d3d](https://github.com/TimSchoenle/senec-v3-collector/commit/ddc1d3d7392b37114c4e0590b221aa86dc1b64b7))
+* **deps:** update step-security/harden-runner action to v2.21.1 ([#194](https://github.com/TimSchoenle/senec-v3-collector/issues/194)) ([83cedf7](https://github.com/TimSchoenle/senec-v3-collector/commit/83cedf75cb7562b760dfca48aee68fe56e8b9f49))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.22 ([#196](https://github.com/TimSchoenle/senec-v3-collector/issues/196)) ([57c6732](https://github.com/TimSchoenle/senec-v3-collector/commit/57c67321c6e0ab14736d6d799cbc264eb934ede8))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-auto-approve-renovate.yaml to vworkflows-maintenance-auto-approve-renovate-v1.4.23 ([#202](https://github.com/TimSchoenle/senec-v3-collector/issues/202)) ([f41c1da](https://github.com/TimSchoenle/senec-v3-collector/commit/f41c1da3c484946269c9914cc7a3ff27f3acf8d3))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.34 ([#197](https://github.com/TimSchoenle/senec-v3-collector/issues/197)) ([d2b6ad6](https://github.com/TimSchoenle/senec-v3-collector/commit/d2b6ad6a9283bb33f4c6cd8a91c053bc7386db17))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.35 ([#203](https://github.com/TimSchoenle/senec-v3-collector/issues/203)) ([d1be6cf](https://github.com/TimSchoenle/senec-v3-collector/commit/d1be6cfb9f36938e22d91675a310405fcc6fdb6f))
+* **deps:** update timschoenle/actions/actions/common/readme-variables to vactions-common-readme-variables-v1.1.2 ([#198](https://github.com/TimSchoenle/senec-v3-collector/issues/198)) ([47d1602](https://github.com/TimSchoenle/senec-v3-collector/commit/47d1602254214ae3173bb9dfaf68c1e8a1c37a88))
+* **deps:** update timschoenle/actions/actions/common/readme-variables to vactions-common-readme-variables-v1.2.0 ([#206](https://github.com/TimSchoenle/senec-v3-collector/issues/206)) ([6c25249](https://github.com/TimSchoenle/senec-v3-collector/commit/6c2524936c30c1f102addb6a6bb39f736575047c))
+* **deps:** update timschoenle/actions/actions/common/render-template to vactions-common-render-template-v1.1.3 ([#199](https://github.com/TimSchoenle/senec-v3-collector/issues/199)) ([77b7c4f](https://github.com/TimSchoenle/senec-v3-collector/commit/77b7c4f4ea144b82985a3ac0998dbc122599b169))
+* **deps:** update timschoenle/actions/actions/common/render-template to vactions-common-render-template-v1.2.0 ([#207](https://github.com/TimSchoenle/senec-v3-collector/issues/207)) ([4fb2aa4](https://github.com/TimSchoenle/senec-v3-collector/commit/4fb2aa4e51ed0d76330f56ece77afe9a4e97a143))
+* **deps:** update timschoenle/actions/actions/common/render-template-and-commit to vactions-common-render-template-and-commit-v1.1.5 ([#190](https://github.com/TimSchoenle/senec-v3-collector/issues/190)) ([b9c96e5](https://github.com/TimSchoenle/senec-v3-collector/commit/b9c96e5c5fe8adf40efbd585cd2689e4536aedf0))
+* **deps:** update timschoenle/actions/actions/common/render-template-and-commit to vactions-common-render-template-and-commit-v1.1.6 ([#204](https://github.com/TimSchoenle/senec-v3-collector/issues/204)) ([caa2f6f](https://github.com/TimSchoenle/senec-v3-collector/commit/caa2f6fe9b3b8e9607f5921218f519d5d7df3d96))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.13 ([#191](https://github.com/TimSchoenle/senec-v3-collector/issues/191)) ([e05d49b](https://github.com/TimSchoenle/senec-v3-collector/commit/e05d49b9bcbc77717afef865d6039bcd30048219))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.14 ([#205](https://github.com/TimSchoenle/senec-v3-collector/issues/205)) ([c2a09e6](https://github.com/TimSchoenle/senec-v3-collector/commit/c2a09e6c949ca4c7577474170f3d3f584f87ef7c))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.3 ([#193](https://github.com/TimSchoenle/senec-v3-collector/issues/193)) ([53c9a15](https://github.com/TimSchoenle/senec-v3-collector/commit/53c9a151111915cc67f8770a7426774d3f2cdbec))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#201](https://github.com/TimSchoenle/senec-v3-collector/issues/201)) ([01fa746](https://github.com/TimSchoenle/senec-v3-collector/commit/01fa7462259f5a853780979958f7847d4cb192ef))
+
 ## [1.1.17](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.16...v1.1.17) (2026-08-31)
 
 
