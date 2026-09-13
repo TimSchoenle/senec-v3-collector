@@ -1,6 +1,6 @@
 [package]
 name = "senec-v3-workspace"
-version = "1.1.18"
+version = "1.1.19"
 publish = false
 
 [lints]
