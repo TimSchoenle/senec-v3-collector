@@ -1,5 +1,28 @@
 # Changelog
 
+## [1.1.19](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.18...v1.1.19) (2026-09-13)
+
+
+### CI
+
+* migrate pr comments to shared action ([#208](https://github.com/TimSchoenle/senec-v3-collector/issues/208)) ([c3f824e](https://github.com/TimSchoenle/senec-v3-collector/commit/c3f824e0b170177b451a213296d781cc48164a7f))
+
+
+### Miscellaneous
+
+* add .gitattributes ([31b2443](https://github.com/TimSchoenle/senec-v3-collector/commit/31b2443628a1e115bdc09221dc7d20d2f68f365f))
+* **deps:** update actions-rust-lang/setup-rust-toolchain action to v2 ([#215](https://github.com/TimSchoenle/senec-v3-collector/issues/215)) ([3beda6f](https://github.com/TimSchoenle/senec-v3-collector/commit/3beda6f73422cc3b789d21a421d719f1833bff96))
+* **deps:** update github/codeql-action action to v4.38.0 ([#220](https://github.com/TimSchoenle/senec-v3-collector/issues/220)) ([66fcafe](https://github.com/TimSchoenle/senec-v3-collector/commit/66fcafe41e0bd5795206990b6cd1ca87b8128b0c))
+* **deps:** update rust crate reqwest to v0.13.5 ([#218](https://github.com/TimSchoenle/senec-v3-collector/issues/218)) ([b5b5a81](https://github.com/TimSchoenle/senec-v3-collector/commit/b5b5a81c6d06461464e8ea83a7f04edaadff3f81))
+* **deps:** update timschoenle/actions/actions/common/readme-variables to vactions-common-readme-variables-v1.2.1 ([#210](https://github.com/TimSchoenle/senec-v3-collector/issues/210)) ([f78e363](https://github.com/TimSchoenle/senec-v3-collector/commit/f78e363e599a6461da3f772a41b5ea96d9f4f464))
+* **deps:** update timschoenle/actions/actions/common/render-template to vactions-common-render-template-v1.2.1 ([#211](https://github.com/TimSchoenle/senec-v3-collector/issues/211)) ([5131892](https://github.com/TimSchoenle/senec-v3-collector/commit/51318925d7209db08bab3884228cc99cb0613e3d))
+* **deps:** update timschoenle/actions/actions/common/render-template-and-commit to vactions-common-render-template-and-commit-v1.1.7 ([#212](https://github.com/TimSchoenle/senec-v3-collector/issues/212)) ([2286514](https://github.com/TimSchoenle/senec-v3-collector/commit/228651449ef472a0c432644399191e3552fc4205))
+* **deps:** update timschoenle/actions/actions/common/render-template-and-commit to vactions-common-render-template-and-commit-v1.1.8 ([#216](https://github.com/TimSchoenle/senec-v3-collector/issues/216)) ([11af6a4](https://github.com/TimSchoenle/senec-v3-collector/commit/11af6a45bf5340edfd413c6df83838786fa10dec))
+* **deps:** update timschoenle/actions/actions/common/upsert-pr-comment to vactions-common-upsert-pr-comment-v1.1.1 ([#213](https://github.com/TimSchoenle/senec-v3-collector/issues/213)) ([c513783](https://github.com/TimSchoenle/senec-v3-collector/commit/c513783dcbccf5fd1beb1720effe5c849b9d97f4))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.15 ([#214](https://github.com/TimSchoenle/senec-v3-collector/issues/214)) ([609c97e](https://github.com/TimSchoenle/senec-v3-collector/commit/609c97e246c39f85b90318b9cece5f68d7c242d8))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.16 ([#217](https://github.com/TimSchoenle/senec-v3-collector/issues/217)) ([878650e](https://github.com/TimSchoenle/senec-v3-collector/commit/878650ef49bc9c2220cce21e323c9d5499da7885))
+* **deps:** update zizmorcore/zizmor-action action to v0.6.4 ([#219](https://github.com/TimSchoenle/senec-v3-collector/issues/219)) ([875f85d](https://github.com/TimSchoenle/senec-v3-collector/commit/875f85d528472931f2277a55cec0cd13e628b548))
+
 ## [1.1.18](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.17...v1.1.18) (2026-09-07)
 
 
