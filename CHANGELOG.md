@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.20](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.19...v1.1.20) (2026-09-19)
+
+
+### Miscellaneous
+
+* **deps:** update docker/build-push-action digest to c3c9e26 ([#236](https://github.com/TimSchoenle/senec-v3-collector/issues/236)) ([265ab8a](https://github.com/TimSchoenle/senec-v3-collector/commit/265ab8af915c92083ddfc0663055ec03dbc2d731))
+* **deps:** update docker/setup-buildx-action digest to f87e599 ([#238](https://github.com/TimSchoenle/senec-v3-collector/issues/238)) ([5246668](https://github.com/TimSchoenle/senec-v3-collector/commit/5246668c83ba50faf5a223982e573519aac16a36))
+* **deps:** update timschoenle/actions/.github/workflows/maintenance-timed-auto-pr-approve.yaml to vworkflows-maintenance-timed-auto-pr-approve-v1.2.37 ([#233](https://github.com/TimSchoenle/senec-v3-collector/issues/233)) ([cd07c5d](https://github.com/TimSchoenle/senec-v3-collector/commit/cd07c5d3a4796844ad92c59b882ad21445c4048a))
+* **deps:** update timschoenle/actions/actions/common/readme-variables to vactions-common-readme-variables-v1.2.2 ([#228](https://github.com/TimSchoenle/senec-v3-collector/issues/228)) ([f10cf0e](https://github.com/TimSchoenle/senec-v3-collector/commit/f10cf0e60fa91d997e19dc49fe369c557ce42bba))
+* **deps:** update timschoenle/actions/actions/common/upsert-pr-comment to vactions-common-upsert-pr-comment-v1.1.2 ([#231](https://github.com/TimSchoenle/senec-v3-collector/issues/231)) ([895c160](https://github.com/TimSchoenle/senec-v3-collector/commit/895c1601d8813fa8741057622ae49660f76229e3))
+* **deps:** update timschoenle/actions/actions/rust/auto-format to vactions-rust-auto-format-v1.1.18 ([#235](https://github.com/TimSchoenle/senec-v3-collector/issues/235)) ([dc4851c](https://github.com/TimSchoenle/senec-v3-collector/commit/dc4851ce4a7b2c50ac9abda41132fb058fd30b94))
+
 ## [1.1.19](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.18...v1.1.19) (2026-09-14)
 
 
