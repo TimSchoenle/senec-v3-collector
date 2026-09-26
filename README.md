@@ -20,6 +20,7 @@ SENEC v3 telemetry collector that discovers device keys and exposes pull-based P
 
 [![Release](https://img.shields.io/github/v/release/TimSchoenle/senec-v3-collector?sort=semver)](https://github.com/TimSchoenle/senec-v3-collector/releases)
 [![Build](https://img.shields.io/github/actions/workflow/status/TimSchoenle/senec-v3-collector/build.yaml?branch=main)](https://github.com/TimSchoenle/senec-v3-collector/actions/workflows/build.yaml)
+[![License](https://img.shields.io/github/license/TimSchoenle/senec-v3-collector)](LICENSE)
 
 ## What this is
 
