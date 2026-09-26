@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.21](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.20...v1.1.21) (2026-09-26)
+
+
+### Documentation
+
+* read the README description from Cargo.toml and add the licence badge ([#241](https://github.com/TimSchoenle/senec-v3-collector/issues/241)) ([dbb8546](https://github.com/TimSchoenle/senec-v3-collector/commit/dbb854618d1ff80a6af4ebf2280dd2637e9214b0))
+
 ## [1.1.20](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.19...v1.1.20) (2026-09-21)
 
 
