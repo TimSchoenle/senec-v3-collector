@@ -1,6 +1,6 @@
 [package]
 name = "senec-v3-workspace"
-version = "1.1.20"
+version = "1.1.21"
 description = "SENEC v3 telemetry collector that discovers device keys and exposes pull-based Prometheus metrics."
 publish = false
 

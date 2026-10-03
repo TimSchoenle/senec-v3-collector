@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.1.21](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.20...v1.1.21) (2026-10-03)
+
+
+### Documentation
+
+* read the README description from Cargo.toml and add the licence badge ([#241](https://github.com/TimSchoenle/senec-v3-collector/issues/241)) ([dbb8546](https://github.com/TimSchoenle/senec-v3-collector/commit/dbb854618d1ff80a6af4ebf2280dd2637e9214b0))
+
+
+### Miscellaneous
+
+* **deps:** update github/codeql-action action to v4.38.2 ([#243](https://github.com/TimSchoenle/senec-v3-collector/issues/243)) ([ef1853f](https://github.com/TimSchoenle/senec-v3-collector/commit/ef1853ffcdc99bf6889a19317c095177a9a37be6))
+* **deps:** update timschoenle/actions/actions/common/readme-variables to vactions-common-readme-variables-v1.2.3 ([#245](https://github.com/TimSchoenle/senec-v3-collector/issues/245)) ([de25ffc](https://github.com/TimSchoenle/senec-v3-collector/commit/de25ffcc919f199f80af17d7eaeb9812c6220c30))
+* **deps:** update timschoenle/actions/actions/common/render-template to vactions-common-render-template-v1.2.3 ([#246](https://github.com/TimSchoenle/senec-v3-collector/issues/246)) ([d6dc762](https://github.com/TimSchoenle/senec-v3-collector/commit/d6dc76201adb024740cc42c554a7433acb868f1b))
+* **deps:** update timschoenle/actions/actions/common/upsert-pr-comment to vactions-common-upsert-pr-comment-v1.1.3 ([#247](https://github.com/TimSchoenle/senec-v3-collector/issues/247)) ([ba04cdf](https://github.com/TimSchoenle/senec-v3-collector/commit/ba04cdfd1ed62c7f31709532a15352aefc8b1afa))
+* **deps:** update timschoenle/actions/actions/rust/clippy to vactions-rust-clippy-v1.1.12 ([#248](https://github.com/TimSchoenle/senec-v3-collector/issues/248)) ([211ad31](https://github.com/TimSchoenle/senec-v3-collector/commit/211ad31976a96b3879dc5d4c5778fe261ed78979))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#244](https://github.com/TimSchoenle/senec-v3-collector/issues/244)) ([bf40a7e](https://github.com/TimSchoenle/senec-v3-collector/commit/bf40a7e7edfe054ce367286bd22b8508c7d67167))
+
 ## [1.1.20](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.19...v1.1.20) (2026-09-21)
 
 

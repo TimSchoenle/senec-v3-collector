@@ -50,7 +50,7 @@ docker run --rm -p 9464:9464 \
   -v "$PWD/deploy/profiles/generated:/app/profiles/generated:ro" \
   -e SENEC_BASE_URL=https://192.168.178.36 \
   -e SENEC_PROFILE_PATH=/app/profiles/generated/senec-profile-live.json \
-  timschoenle/senec-v3-collector:v1.1.20
+  timschoenle/senec-v3-collector:v1.1.21
 ```
 
 Then scrape `http://localhost:9464/metrics`. Point `SENEC_BASE_URL` at your own device; that
@@ -92,7 +92,7 @@ address is a default, not a discovery mechanism.
 ### Docker
 
 ```bash
-docker pull timschoenle/senec-v3-collector:v1.1.20
+docker pull timschoenle/senec-v3-collector:v1.1.21
 ```
 
 Built for `linux/amd64` only, from an `x86_64-unknown-linux-musl` target. Every release is signed
