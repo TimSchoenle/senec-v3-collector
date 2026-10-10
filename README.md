@@ -1,9 +1,9 @@
 <!--
 Generated from .github/templates/README.md.hbs. Edit that file, not this one.
 
-CI renders it on every pull request and commits the result back to the branch. A push to main
-whose README.md does not match its template fails the `readme` job in
-.github/workflows/docs.yml.
+CI renders it on every pull request opened from this repository and commits the result back to
+the branch. A push to main, or a pull request from a fork, whose README.md does not match its
+template fails the `readme` job in .github/workflows/docs.yml.
 
 The payload comes from one place, TimSchoenle/actions/actions/common/readme-variables: the
 repository coordinates, the release read off Cargo.toml, and the table of documents walked out of
@@ -233,8 +233,8 @@ be writable. `/app/profiles/generated` can be mounted read-only.
 
 | Document | Summary |
 | --- | --- |
-| [`docs/METRICS.md`](docs/METRICS.md) | Every series the collector exports, and how the derived energy and cost counters are computed from two of the device's own keys. |
-| [`docs/MONITORING_STACK.md`](docs/MONITORING_STACK.md) | Three Compose files under deploy/compose run the collector next to a scraper and a dashboard, so a working setup is one command rather than three services to wire together. |
+| [Metrics](docs/METRICS.md) | Every series the collector exports, and how the derived energy and cost counters are computed from two of the device's own keys. |
+| [Monitoring stack](docs/MONITORING_STACK.md) | Three Compose files under deploy/compose run the collector next to a scraper and a dashboard, so a working setup is one command rather than three services to wire together. |
 
 That table is walked out of `docs/` rather than maintained by hand, so a document added in a pull
 request is listed by the same pull request.
