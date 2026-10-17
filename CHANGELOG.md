@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.23](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.22...v1.1.23) (2026-10-17)
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#281](https://github.com/TimSchoenle/senec-v3-collector/issues/281)) ([4fe189f](https://github.com/TimSchoenle/senec-v3-collector/commit/4fe189f59332146855ae2f03ec9d8456adab272d))
+* **deps:** update rust crate tokio to v1.53.3 ([#290](https://github.com/TimSchoenle/senec-v3-collector/issues/290)) ([065bde5](https://github.com/TimSchoenle/senec-v3-collector/commit/065bde515968f6c384aad011a2cf64a62f73cd9c))
+
 ## [1.1.22](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.21...v1.1.22) (2026-10-11)
 
 
