@@ -1,7 +1,17 @@
-.git
-.idea
-target
-target-temp
-analysis
+# An allowlist: the build context is the manifests, the toolchain pin and the Rust sources, and
+# nothing else. `COPY . .` in `builder` hashes the whole context, so any file that reaches it is
+# an input to the final `cargo build`. With `.github/`, the docs and the release-please files in
+# the context, a commit that touched only a workflow or the changelog recompiled the workspace
+# crates on every push. A new top-level directory the build needs has to be added here; leaving
+# it out fails the build instead of silently compiling without it.
+*
+!Cargo.toml
+!Cargo.lock
+!rust-toolchain.toml
+!src/
+!apps/
+!crates/
 
-*.log
+# Local build output inside the allowed directories.
+**/target
+**/*.rs.bk
