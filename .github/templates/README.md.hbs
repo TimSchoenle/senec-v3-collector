@@ -81,8 +81,8 @@ address is a default, not a discovery mechanism.
 - **Grid economics are integrated, not read.** The device reports instantaneous power, so the
   collector multiplies `ENERGY.GUI_GRID_POW` and `ENERGY.GUI_HOUSE_POW` by the measured time since
   the previous cycle and accumulates kWh. Tariffs turn those into cost, revenue and a net balance.
-- The accumulated totals are written to a JSON file after every cycle and read back at startup, so
-  a restart does not reset them. The gap while the process was down is not counted.
+- The accumulated totals are written to a JSON file after every successful cycle and read back at
+  startup, so a restart does not reset them. The gap while the process was down is not counted.
 - Requests are chunked at `--chunk-size` keys per POST, per object. A device that rejects or
   truncates a large request is handled by lowering that number rather than by editing the profile.
 - The runtime image is `FROM scratch` and holds a statically linked musl binary and the CA
@@ -211,10 +211,11 @@ rather than that the device did. `senec_poll_ok` carries the last cycle's outcom
 poll leaves every `senec_value` gauge holding its previous reading, and nothing else in the scrape
 tells a stale value from a fresh one.
 
-The collector handles `SIGINT`. It installs no `SIGTERM` handler, and as PID 1 in a container it
-gets no default disposition for one either, so `docker stop` waits out the full grace period before
-`SIGKILL`. Nothing is lost to that: the state file is written at the end of every cycle, not at
-shutdown.
+The collector stops on `SIGINT` and on `SIGTERM`, so `docker stop` ends it without waiting out the
+grace period. A cycle already in flight finishes before the process exits, provided the stop
+timeout outlasts it; otherwise Docker sends `SIGKILL` and the cycle is cut short. Nothing is written
+at shutdown: the state file is written at the end of every successful cycle. On Windows only Ctrl-C
+is handled.
 
 The state file is the only thing the process writes, so `/app/state` is the only path that has to
 be writable. `/app/profiles/generated` can be mounted read-only.

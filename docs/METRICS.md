@@ -65,7 +65,8 @@ change.
 ### Persistence
 
 `SENEC_ECONOMICS_STATE_PATH` names a JSON file holding the three accumulated kWh figures. It is
-written after every cycle through a temporary file and a rename, and read back at startup.
+written after every successful cycle through a temporary file and a rename, and read back at
+startup.
 
 The timestamp is deliberately not part of that file. A restart therefore starts a fresh interval,
 and the energy that flowed while the process was down is not counted. Counting it would mean
