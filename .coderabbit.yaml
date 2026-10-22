@@ -1,0 +1,109 @@
+# yaml-language-server: $schema=https://storage.googleapis.com/coderabbit_public_assets/schema.v2.json
+tone_instructions: "Direct, no filler, no praise."
+
+reviews:
+  profile: assertive
+
+  auto_review:
+    # CodeRabbit cannot filter by head branch, so automated pull requests are
+    # skipped by author: Renovate opens `renovate/*`, the release manager app
+    # opens `release-please--*`. Both the bot login and the bare app slug are
+    # listed because the match is exact.
+    ignore_usernames:
+      - "renovate[bot]"
+      - "renovate"
+      - "automatic-release-manager[bot]"
+      - "automatic-release-manager"
+
+  # Generated or tool-owned files. Review their sources instead.
+  path_filters:
+    - "!**/Cargo.lock"
+    - "!target/**"
+    - "!CHANGELOG.md"
+    - "!.release-please-manifest.json"
+    - "!README.md" # rendered from .github/templates/README.md.hbs
+    - "!deploy/profiles/generated/**" # output of `senec-discover` against a live device
+
+  path_instructions:
+    - path: "crates/**/*.rs"
+      instructions: |
+        Internal workspace libraries (`publish = false`); no semver promise, but keep the API between
+        crates small and documented. Flag:
+        - `unwrap`, `expect`, `panic!`, `unreachable!` or panicking indexing/slicing in non-test code;
+          device data is untrusted and malformed input must yield an error or be skipped.
+        - Missing rustdoc, `# Errors` / `# Panics` sections (clippy pedantic and `missing_docs` are on).
+        - Bare `#[allow(...)]`; use `#[expect(..., reason = "...")]` as the workspace already does.
+        - New workspace dependencies or features without justification.
+        Rust is pinned in rust-toolchain.toml; there is no MSRV.
+    - path: "crates/senec-core/**"
+      instructions: |
+        HTTP client for the SENEC device. Every request needs a bounded timeout. Certificate
+        validation may only be disabled by the explicit `insecure_tls` opt-in, never by default or
+        silently. Decoding of typed tokens (`fl_`, `u8_`, ...) must handle truncated, oversized and
+        non-hex input without panics or overflow, and document precision loss.
+    - path: "crates/senec-discovery/**"
+      instructions: |
+        Parses the device's web UI JavaScript to find keys. Treat the input as untrusted and
+        unbounded; regexes must be compiled once, and output must be deterministic (sorted) so the
+        generated profile diffs cleanly.
+    - path: "crates/senec-export/**"
+      instructions: |
+        Prometheus exporter and persisted grid-economics state. Check metric and label naming against
+        Prometheus conventions and docs/METRICS.md, unbounded label cardinality, counter monotonicity
+        across restarts, atomic state-file writes (write-then-rename), lock poisoning handling, and
+        blocking filesystem I/O on the async runtime.
+    - path: "apps/**"
+      instructions: |
+        CLI binaries configured through clap and environment variables. Flag secrets or device URLs
+        with credentials in logs, missing graceful shutdown on SIGTERM, unbounded retries or poll
+        loops without backoff, blocking calls inside async tasks, and listener defaults that expose
+        more than the metrics endpoint.
+    - path: "deploy/**"
+      instructions: |
+        Example Compose stack, Grafana and VictoriaMetrics config. Images stay pinned by digest.
+        Flag credentials beyond obvious placeholders, services published on all interfaces without
+        need, `SENEC_INSECURE_TLS` presented as a safe default, and dashboard queries that reference
+        metrics the exporter does not emit.
+    - path: "docs/**"
+      instructions: |
+        Must match the code: metric names, labels, units and derivation formulas in METRICS.md;
+        file names and commands in MONITORING_STACK.md.
+    - path: "{Dockerfile,cst.yaml}"
+      instructions: |
+        Require base images pinned by digest, `--locked` on `cargo chef cook` and `cargo build`, a
+        `scratch` non-root (1001:1001) runtime, and no secrets in layers or build args. cst.yaml must agree with the Dockerfile's entrypoint,
+        user and exposed port.
+    - path: ".github/workflows/**"
+      instructions: |
+        Every third-party action must be pinned to a full commit SHA with a version comment.
+        Require least-privilege `permissions:` at workflow or job level, `persist-credentials: false`
+        on checkout unless pushing, no untrusted `${{ github.event.* }}` interpolation into `run:`,
+        and no `pull_request_target` that checks out or executes PR code.
+    - path: ".github/templates/**"
+      instructions: |
+        Source of the generated README.md. Review rendered wording, links and badge URLs here.
+
+  pre_merge_checks:
+    title:
+      mode: error
+      requirements: |
+        Must follow Conventional Commits: `type(scope)?!?: subject`. Allowed types: feat, fix, perf,
+        revert, docs, refactor, test, style, ci, build, chore, deps. Lowercase, imperative subject,
+        no trailing period. release-please derives version bumps and the changelog from this title.
+
+  tools:
+    # Already enforced in CI; duplicating it adds noise.
+    clippy:
+      enabled: false
+    actionlint:
+      enabled: true
+    zizmor:
+      enabled: true
+    gitleaks:
+      enabled: true
+    hadolint:
+      enabled: true
+    yamllint:
+      enabled: true
+    markdownlint:
+      enabled: true
