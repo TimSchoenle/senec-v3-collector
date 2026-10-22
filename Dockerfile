@@ -3,7 +3,7 @@
 ARG APP_NAME=senec-v3-collector
 ARG TARGET=x86_64-unknown-linux-musl
 
-FROM lukemathwalker/cargo-chef:latest-rust-alpine AS chef
+FROM lukemathwalker/cargo-chef:latest-rust-alpine@sha256:2c27e67049f17e8b67d882a2cf2f5e1a1d4d71c206ec97f91edf278254688e95 AS chef
 ARG TARGET
 RUN apk add --no-cache \
     musl-dev \
