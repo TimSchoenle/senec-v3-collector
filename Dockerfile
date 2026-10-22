@@ -30,9 +30,12 @@ FROM chef AS builder
 ARG TARGET
 ARG APP_NAME
 COPY --from=planner /app/recipe.json recipe.json
-RUN cargo chef cook --release --target ${TARGET} --recipe-path recipe.json
+# `--locked` on both steps: a Cargo.lock that no longer matches the manifests fails the build
+# instead of being re-resolved inside the image, so the binary is built from the versions the
+# repository records and the dependency review checked.
+RUN cargo chef cook --release --locked --target ${TARGET} --recipe-path recipe.json
 COPY . .
-RUN cargo build --release --target ${TARGET} -p ${APP_NAME}
+RUN cargo build --release --locked --target ${TARGET} -p ${APP_NAME}
 
 FROM scratch AS runtime
 ARG TARGET
