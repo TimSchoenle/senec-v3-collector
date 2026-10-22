@@ -108,7 +108,7 @@ mod tests {
     #[test]
     fn ignores_non_numeric_tokens() {
         let values = decode_numeric_values("st_text FORBIDDEN");
-        assert!(values.is_empty());
+        assert_eq!(values, Vec::<f64>::new());
     }
 
     #[test]
