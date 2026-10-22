@@ -81,8 +81,8 @@ address is a default, not a discovery mechanism.
 - **Grid economics are integrated, not read.** The device reports instantaneous power, so the
   collector multiplies `ENERGY.GUI_GRID_POW` and `ENERGY.GUI_HOUSE_POW` by the measured time since
   the previous cycle and accumulates kWh. Tariffs turn those into cost, revenue and a net balance.
-- The accumulated totals are written to a JSON file after every cycle and read back at startup, so
-  a restart does not reset them. The gap while the process was down is not counted.
+- The accumulated totals are written to a JSON file after every successful cycle and read back at
+  startup, so a restart does not reset them. The gap while the process was down is not counted.
 - Requests are chunked at `--chunk-size` keys per POST, per object. A device that rejects or
   truncates a large request is handled by lowering that number rather than by editing the profile.
 - The runtime image is `FROM scratch` and holds a statically linked musl binary and the CA
@@ -212,8 +212,10 @@ poll leaves every `senec_value` gauge holding its previous reading, and nothing 
 tells a stale value from a fresh one.
 
 The collector stops on `SIGINT` and on `SIGTERM`, so `docker stop` ends it without waiting out the
-grace period. A cycle already in flight finishes before the process exits. Nothing is written at
-shutdown: the state file is written at the end of every cycle. On Windows only Ctrl-C is handled.
+grace period. A cycle already in flight finishes before the process exits, provided the stop
+timeout outlasts it; otherwise Docker sends `SIGKILL` and the cycle is cut short. Nothing is written
+at shutdown: the state file is written at the end of every successful cycle. On Windows only Ctrl-C
+is handled.
 
 The state file is the only thing the process writes, so `/app/state` is the only path that has to
 be writable. `/app/profiles/generated` can be mounted read-only.

@@ -223,6 +223,9 @@ async fn run(cli: Cli) -> Result<()> {
 
     loop {
         tokio::select! {
+            // Checked in order, so a signal that arrived during a long cycle wins over a tick that
+            // became ready at the same time instead of starting another cycle.
+            biased;
             signal = shutdown.recv() => {
                 tracing::info!(signal, "shutdown signal received, stopping collector");
                 break;
