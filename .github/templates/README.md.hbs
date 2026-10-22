@@ -211,10 +211,9 @@ rather than that the device did. `senec_poll_ok` carries the last cycle's outcom
 poll leaves every `senec_value` gauge holding its previous reading, and nothing else in the scrape
 tells a stale value from a fresh one.
 
-The collector handles `SIGINT`. It installs no `SIGTERM` handler, and as PID 1 in a container it
-gets no default disposition for one either, so `docker stop` waits out the full grace period before
-`SIGKILL`. Nothing is lost to that: the state file is written at the end of every cycle, not at
-shutdown.
+The collector stops on `SIGINT` and on `SIGTERM`, so `docker stop` ends it without waiting out the
+grace period. A cycle already in flight finishes before the process exits. Nothing is written at
+shutdown: the state file is written at the end of every cycle. On Windows only Ctrl-C is handled.
 
 The state file is the only thing the process writes, so `/app/state` is the only path that has to
 be writable. `/app/profiles/generated` can be mounted read-only.

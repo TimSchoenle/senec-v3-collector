@@ -3,16 +3,18 @@
 //! # Failure posture
 //!
 //! Everything fatal happens at startup: a profile that cannot be read or that lists no keys, a
-//! state file that exists but cannot be parsed, a negative tariff, and a metrics port that cannot
-//! be bound. A failed cycle is logged, sets `senec_poll_ok` to 0, and is followed by the next
+//! state file that exists but cannot be parsed, a negative tariff, a metrics port that cannot be
+//! bound, and a signal handler that cannot be installed. A failed cycle is logged, sets `senec_poll_ok` to 0, and is followed by the next
 //! tick. Under `--once` that same failure becomes the exit status. The metrics server runs as a
 //! spawned task, so a serve failure after the bind succeeded logs and ends that task while the
 //! poll loop keeps going against a dead scrape endpoint. What a scrape can and cannot tell about
 //! a failed cycle is in `docs/METRICS.md`.
 //!
-//! Only `SIGINT` is handled, and PID 1 has no default disposition for `SIGTERM`, so `docker stop`
-//! waits out its full grace period. Nothing is lost to that, because the economics state file is
-//! written at the end of every successful cycle rather than at shutdown.
+//! `SIGINT` and, on Unix, `SIGTERM` stop the poll loop. As PID 1 in a container the process has no
+//! default disposition for `SIGTERM`, so without the handler `docker stop` would wait out its full
+//! grace period. Both handlers are installed before the first cycle, so a signal that arrives
+//! while a cycle is in flight lets that cycle finish and then stops the loop. Nothing is written at
+//! shutdown: the economics state file is written at the end of every successful cycle.
 
 use std::{collections::BTreeSet, net::SocketAddr, path::PathBuf, time::Duration};
 
@@ -215,13 +217,14 @@ async fn run(cli: Cli) -> Result<()> {
         return result;
     }
 
+    let mut shutdown = ShutdownSignals::install()?;
     let mut ticker = tokio::time::interval(Duration::from_secs(cli.poll_interval_secs.max(1)));
     ticker.set_missed_tick_behavior(MissedTickBehavior::Delay);
 
     loop {
         tokio::select! {
-            _ = tokio::signal::ctrl_c() => {
-                tracing::info!("ctrl-c received, shutting down collector");
+            signal = shutdown.recv() => {
+                tracing::info!(signal, "shutdown signal received, stopping collector");
                 break;
             }
             _ = ticker.tick() => {
@@ -235,6 +238,58 @@ async fn run(cli: Cli) -> Result<()> {
 
     metrics_server.abort();
     Ok(())
+}
+
+/// The process signals that stop the poll loop.
+///
+/// The handlers are registered once, before the loop, rather than per iteration: a signal that
+/// arrives while a cycle is in flight is then held until the loop next waits, instead of being
+/// delivered to no listener and lost.
+struct ShutdownSignals {
+    #[cfg(unix)]
+    interrupt: tokio::signal::unix::Signal,
+    #[cfg(unix)]
+    terminate: tokio::signal::unix::Signal,
+    #[cfg(windows)]
+    ctrl_c: tokio::signal::windows::CtrlC,
+}
+
+impl ShutdownSignals {
+    #[cfg(unix)]
+    fn install() -> Result<Self> {
+        use tokio::signal::unix::{SignalKind, signal};
+
+        Ok(Self {
+            interrupt: signal(SignalKind::interrupt())
+                .context("failed to install the SIGINT handler")?,
+            terminate: signal(SignalKind::terminate())
+                .context("failed to install the SIGTERM handler")?,
+        })
+    }
+
+    #[cfg(windows)]
+    fn install() -> Result<Self> {
+        Ok(Self {
+            ctrl_c: tokio::signal::windows::ctrl_c()
+                .context("failed to install the Ctrl-C handler")?,
+        })
+    }
+
+    /// Waits for the next shutdown signal and returns its name.
+    #[cfg(unix)]
+    async fn recv(&mut self) -> &'static str {
+        tokio::select! {
+            _ = self.interrupt.recv() => "SIGINT",
+            _ = self.terminate.recv() => "SIGTERM",
+        }
+    }
+
+    /// Waits for the next shutdown signal and returns its name.
+    #[cfg(windows)]
+    async fn recv(&mut self) -> &'static str {
+        self.ctrl_c.recv().await;
+        "Ctrl-C"
+    }
 }
 
 async fn start_metrics_server(
