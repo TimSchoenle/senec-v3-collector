@@ -11,6 +11,9 @@ Available files:
 By default, in the full stack examples only Grafana is published to the host.
 Collector, Prometheus, and VictoriaMetrics stay internal to the Docker network.
 
+The full stacks require `GRAFANA_ADMIN_PASSWORD`, which the committed `.env` leaves empty. Set it in
+`.env` or in the environment first.
+
 Run an example from the repository root:
 
 ```powershell
