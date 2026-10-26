@@ -1,5 +1,25 @@
 # Changelog
 
+## [1.1.24](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.23...v1.1.24) (2026-10-25)
+
+
+### Bug Fixes
+
+* **collector:** shut down on SIGTERM ([#301](https://github.com/TimSchoenle/senec-v3-collector/issues/301)) ([9918198](https://github.com/TimSchoenle/senec-v3-collector/commit/9918198f6d481d46c8c98a3a16f95b8e3cb3d163))
+
+
+### Build System
+
+* **deps:** allow Renovate updates for cargo-chef ([#297](https://github.com/TimSchoenle/senec-v3-collector/issues/297)) ([43d8d02](https://github.com/TimSchoenle/senec-v3-collector/commit/43d8d022022a60110102632c3997ec03e3bd04f3))
+* **docker:** build the image with --locked ([#302](https://github.com/TimSchoenle/senec-v3-collector/issues/302)) ([1e22fb1](https://github.com/TimSchoenle/senec-v3-collector/commit/1e22fb15059d2d94564c1cb72be1dacab8d0d261))
+* **renovate:** extend the shared rust-application preset ([#299](https://github.com/TimSchoenle/senec-v3-collector/issues/299)) ([10d36af](https://github.com/TimSchoenle/senec-v3-collector/commit/10d36afcb9ff03fbd9c14a079dd6be23d319ffcf))
+* **toolchain:** pin Rust 1.99.1 in rust-toolchain.toml ([#294](https://github.com/TimSchoenle/senec-v3-collector/issues/294)) ([9a51487](https://github.com/TimSchoenle/senec-v3-collector/commit/9a51487aba47b18ce05102ea924a9580fe2c9134))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#292](https://github.com/TimSchoenle/senec-v3-collector/issues/292)) ([502014d](https://github.com/TimSchoenle/senec-v3-collector/commit/502014dfdf83e02475b196b24834f609e996c82a))
+
 ## [1.1.23](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.22...v1.1.23) (2026-10-17)
 
 
