@@ -2,7 +2,8 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "github>TimSchoenle/actions//configs/renovate/default",
-    "github>TimSchoenle/actions//configs/renovate/rust-application"
+    "github>TimSchoenle/actions//configs/renovate/rust-application",
+    "customManagers:githubActionsVersions"
   ],
   "packageRules": [
     {
@@ -12,6 +13,17 @@
         "taiki-e/install-action"
       ],
       "enabled": false
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "`cargo install` pins inside the Dockerfile, exact so a bot (not a cache miss) is what moves them.",
+      "managerFilePatterns": ["/^Dockerfile$/"],
+      "matchStrings": [
+        "cargo install (?<depName>[a-z0-9_-]+) --locked --version (?<currentValue>[0-9][^\\s\\\\]*)"
+      ],
+      "datasourceTemplate": "crate"
     }
   ]
 }
