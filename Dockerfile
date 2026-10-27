@@ -3,7 +3,9 @@
 ARG APP_NAME=senec-v3-collector
 ARG TARGET=x86_64-unknown-linux-musl
 
-FROM lukemathwalker/cargo-chef:latest-rust-alpine AS chef
+# Pinned by digest, which Renovate bumps like the other base images. The floating tag alone let two
+# builds of one commit compile with different toolchain images and cargo-chef releases.
+FROM lukemathwalker/cargo-chef:latest-rust-alpine@sha256:c48fa69aff194617af79ddc9473a58b946068012721979a9aef9c3e1466ccbd8 AS chef
 ARG TARGET
 RUN apk add --no-cache \
     musl-dev \
@@ -20,7 +22,10 @@ WORKDIR /app
 COPY rust-toolchain.toml ./
 RUN rustup toolchain install --no-self-update
 RUN rustup target add ${TARGET}
-RUN cargo install cargo-chef --locked
+# The cargo-chef release the base image above ships, installed again for the toolchain
+# `rust-toolchain.toml` pins (a no-op while the two agree). Exact, so a bot, not a crates.io release,
+# is what moves it; Renovate's `cargo install` manager in renovate.json bumps it.
+RUN cargo install cargo-chef --locked --version 0.1.78
 
 FROM chef AS planner
 COPY . .
