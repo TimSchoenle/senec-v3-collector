@@ -10,6 +10,12 @@ on:
 env:
   CARGO_TERM_COLOR: always
   RUST_BACKTRACE: 1
+  # Read by the structure-test step in `docker-build-test`. Declared here with its `renovate:`
+  # comment because that is what makes it visible to Renovate (`customManagers:githubActionsVersions`
+  # in renovate.json); without one, a pin is never updated. Fetched from the GitHub release, as
+  # TankoVault does, and checked against the release's checksums before it runs.
+  # renovate: datasource=github-releases depName=GoogleContainerTools/container-structure-test
+  CONTAINER_STRUCTURE_TEST_VERSION: 1.22.1
 
 permissions:
   contents: read # Required to checkout the code
@@ -119,6 +125,13 @@ jobs:
       name: ci
       deployment: false
     runs-on: ubuntu-latest
+    # Shared with docs.yml rather than with the rest of this workflow: both jobs commit to the
+    # pull request branch through the API, which rejects a commit whose parent has moved. Racing
+    # them would fail one of the two for a reason its log does not explain, so they queue. Only
+    # this half takes the queue: the format job above writes nothing.
+    concurrency:
+      group: branch-writes-${{ github.ref }}
+      cancel-in-progress: false
     permissions:
       contents: read # Required to fetch the commit the patch applies to
     steps:
@@ -255,19 +268,33 @@ jobs:
           cache-from: type=gha
           cache-to: ${{ github.event_name == 'push' && 'type=gha,mode=max' || '' }}
 
+      # Both flags exit zero without touching the network, so the binary failing to start, or
+      # starting as something else, fails the step instead of being swallowed by `|| true`.
       - name: Test Docker image runs
         run: |
-          docker run --rm image:test --version || true
-          docker run --rm image:test --help || true
+          set -euo pipefail
+          version="$(docker run --rm image:test --version)"
+          printf '%s\n' "${version}"
+          printf '%s' "${version}" | grep -q '^senec-v3-collector '
+          help="$(docker run --rm image:test --help)"
+          printf '%s\n' "${help}"
+          printf '%s' "${help}" | grep -q 'Usage: senec-v3-collector'
+
+      # A pinned release binary rather than the `:latest` image it replaces, which handed the
+      # Docker socket to whatever that tag pointed at on the day.
+      - name: Install container-structure-test
+        run: |
+          set -euo pipefail
+          base="https://github.com/GoogleContainerTools/container-structure-test/releases/download/v${CONTAINER_STRUCTURE_TEST_VERSION}"
+          asset="container-structure-test-linux-amd64"
+          cd "$RUNNER_TEMP"
+          curl -fsSL -O "${base}/${asset}" -O "${base}/checksums.txt"
+          grep "  ${asset}$" checksums.txt | sha256sum -c -
+          chmod +x "$asset"
+          sudo mv "$asset" /usr/local/bin/container-structure-test
 
       - name: Run structure tests
-        run: |
-          docker pull gcr.io/gcp-runtimes/container-structure-test:latest
-          docker run --rm \
-            -v $PWD/cst.yaml:/cst.yaml \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            gcr.io/gcp-runtimes/container-structure-test:latest test \
-            --image image:test --config /cst.yaml
+        run: container-structure-test test --image image:test --config cst.yaml
 
       # Size, Trivy scan, SARIF upload and the pull request comment in one step. The comment keeps
       # its docker-image-size identifier, so open pull requests have their existing comment updated
