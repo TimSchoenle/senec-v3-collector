@@ -34,9 +34,18 @@ relative bind mounts resolve without a `cd`:
 docker compose -f deploy/compose/stack.local-bind.yml up -d
 ```
 
-Grafana then answers on `http://localhost:3000`, with the credentials from `GRAFANA_ADMIN_USER` and
-`GRAFANA_ADMIN_PASSWORD`. Both default to `admin` in the committed `.env`. Change them before the
-host is reachable by anything but you.
+Both full stacks refuse to start until `GRAFANA_ADMIN_PASSWORD` is set. The committed `.env` leaves
+it empty so that no checkout ships a known password. Set it in that file, or export it in the shell,
+which takes precedence over the file:
+
+```bash
+GRAFANA_ADMIN_PASSWORD='<your password>' docker compose -f deploy/compose/stack.local-bind.yml up -d
+```
+
+Grafana then answers on `http://localhost:3000`, with `GRAFANA_ADMIN_USER` (`admin` in the committed
+`.env`) and that password. Grafana applies both only when it creates its database. A stack started
+before this requirement keeps the password it was created with, `admin` unless it was changed;
+change it in Grafana or with `grafana cli admin reset-admin-password`.
 
 ## What the stack is configured with
 
