@@ -80,9 +80,10 @@ jobs:
 
   # Formatting is split in two. `cargo fmt` honours the pull request's rust-toolchain.toml and
   # rustfmt.toml, so `fmt` runs pull request code and holds no secret, no environment and no write
-  # permission; it only uploads what it changed as a patch artifact. `fmt-commit` holds the App token
-  # and runs no repository code: it checks out the head for git's objects only, and commit-patch
-  # refuses any path outside `allowed_paths`.
+  # permission; it only uploads what it changed as a patch artifact. `fmt-commit` in
+  # build-commit.yaml (a workflow_run workflow the pull request cannot edit) holds the App token and
+  # runs no repository code: it checks out the head for git's objects only, and commit-patch refuses
+  # any path outside `allowed_paths`.
   #
   # Pull requests only: a push to main is never formatted and committed to directly.
   fmt:
@@ -92,8 +93,6 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read # Required to checkout the code
-    outputs:
-      changes_detected: ${{ steps.format.outputs.changes_detected }}
     steps:
       - name: Harden Runner
         uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
@@ -113,64 +112,6 @@ jobs:
         uses: TimSchoenle/actions/actions/rust/auto-format@e4229b81c3c3c880b9561dc4d53bd87ccf49eaf3 # tag=actions-rust-auto-format-v2.0.1
         with:
           artifact_name: rust-auto-format
-
-  fmt-commit:
-    name: Commit Format
-    needs: fmt
-    # A fork's pull request gets no secrets, and its branch is not in this repository.
-    if: >-
-      github.event_name == 'pull_request' &&
-      needs.fmt.outputs.changes_detected == 'true' &&
-      github.event.pull_request.head.repo.full_name == github.repository
-    # Where ACTIONS_MAINTENANCE_APP_ID and ACTIONS_MAINTENANCE_PRIVATE_KEY live. Only this job gets
-    # the environment, so the job that runs `cargo fmt` never sees the key.
-    environment:
-      name: ci
-      deployment: false
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    # Shared with docs.yml rather than with the rest of this workflow: both jobs commit to the
-    # pull request branch through the API, which rejects a commit whose parent has moved. Racing
-    # them would fail one of the two for a reason its log does not explain, so they queue. Only
-    # this half takes the queue: the format job above writes nothing.
-    concurrency:
-      group: branch-writes-${{ github.event.pull_request.head.repo.full_name || github.repository }}:${{ github.event.pull_request.head.ref || github.ref_name }}
-      queue: max
-      cancel-in-progress: false
-    permissions:
-      contents: read # Required to fetch the commit the patch applies to
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
-        with:
-          egress-policy: audit
-
-      # Only git's objects are needed. Nothing in this checkout is executed.
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      # Scoped to the commit; without a `permission-*` input the token would inherit the whole
-      # installation.
-      - name: Generate Bot Token
-        id: generate_token
-        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
-        with:
-          client-id: ${{ secrets.ACTIONS_MAINTENANCE_APP_ID }}
-          private-key: ${{ secrets.ACTIONS_MAINTENANCE_PRIVATE_KEY }}
-          permission-contents: write # Required to commit the formatted files
-
-      # The artifact name is a literal on purpose: the `fmt` job's outputs come from pull request
-      # code. `cargo fmt` only rewrites .rs files, so nothing else may be committed.
-      - name: Commit Patch
-        uses: TimSchoenle/actions/actions/common/commit-patch@dc5b395636dc1954383f11af4062a08814e9b15a # tag=actions-common-commit-patch-v1.1.1
-        with:
-          token: ${{ steps.generate_token.outputs.token }}
-          artifact_name: rust-auto-format
-          allowed_paths: '**/*.rs'
-          commit_message: 'style: auto-format rust code'
 
   clippy:
     name: Clippy
