@@ -25,6 +25,7 @@ jobs:
       deployment: false
     name: Release Please
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     permissions:
       contents: write # Required to create release commits and tags
       issues: write # Required to create release issues
@@ -45,7 +46,7 @@ jobs:
         id: generate_token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
-          app-id: ${{ secrets.RELEASE_BOT_APP_ID }}
+          client-id: ${{ secrets.RELEASE_BOT_APP_ID }}
           private-key: ${{ secrets.RELEASE_BOT_PRIVATE_KEY }}
           permission-contents: write
           permission-issues: write
@@ -63,9 +64,8 @@ jobs:
     name: Docker Release
     needs: release-please
     if: ${{ needs.release-please.outputs.release_created }}
-    outputs:
-      image_digest: ${{ steps.build.outputs.digest }}
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read # Required to checkout the code
       id-token: write # Required for OIDC authentication with Cosign
@@ -91,6 +91,10 @@ jobs:
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4
+        with:
+          # This job publishes, so the buildx binary is downloaded fresh rather than restored from a
+          # cache another run could have written.
+          cache-binary: false
 
       - name: Login to Docker Hub
         uses: docker/login-action@81c6f93d4bc991e510b342a00b419b3bb4efc5c6 # v4.7.0
@@ -136,4 +140,6 @@ jobs:
           for tag in ${TAGS}; do
             images+="${tag}@${DIGEST} "
           done
+          # Unquoted on purpose: each tag@digest reference is passed to cosign as its own argument.
+          # shellcheck disable=SC2086
           cosign sign --yes ${images}

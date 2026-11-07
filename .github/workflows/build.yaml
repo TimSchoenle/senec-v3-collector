@@ -28,6 +28,7 @@ jobs:
   check:
     name: Check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read # Required to checkout the code
     steps:
@@ -42,6 +43,7 @@ jobs:
   test:
     name: Test
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read # Required to checkout the code
     steps:
@@ -87,6 +89,7 @@ jobs:
     name: Auto Format
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read # Required to checkout the code
     outputs:
@@ -125,6 +128,7 @@ jobs:
       name: ci
       deployment: false
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     # Shared with docs.yml rather than with the rest of this workflow: both jobs commit to the
     # pull request branch through the API, which rejects a commit whose parent has moved. Racing
     # them would fail one of the two for a reason its log does not explain, so they queue. Only
@@ -154,7 +158,7 @@ jobs:
         id: generate_token
         uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
         with:
-          app-id: ${{ secrets.ACTIONS_MAINTENANCE_APP_ID }}
+          client-id: ${{ secrets.ACTIONS_MAINTENANCE_APP_ID }}
           private-key: ${{ secrets.ACTIONS_MAINTENANCE_PRIVATE_KEY }}
           permission-contents: write # Required to commit the formatted files
 
@@ -171,6 +175,7 @@ jobs:
   clippy:
     name: Clippy
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read # Required to checkout the code
       checks: write # Required to annotate the commit with clippy warnings
@@ -189,6 +194,7 @@ jobs:
   doc:
     name: Doc
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       # The rustdoc lints in [workspace.lints.rustdoc] run under rustdoc and nowhere else, so
       # neither cargo check nor clippy can fail a broken intra-doc link. This job is the only
@@ -222,6 +228,7 @@ jobs:
   docker-build-test:
     name: Docker Build and Test
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     # doc is here so the documentation lints block a merge. A job in no needs: list is advisory,
     # and an advisory job goes red on main and stays there.
     needs: [ check, doc ]
@@ -310,6 +317,7 @@ jobs:
   dependency-review:
     name: Dependency Review
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     needs: check
     if: github.event_name == 'pull_request'
     steps:
