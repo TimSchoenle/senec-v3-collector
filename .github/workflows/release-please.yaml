@@ -25,7 +25,7 @@ jobs:
       deployment: false
     name: Release Please
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     permissions:
       contents: write # Required to create release commits and tags
       issues: write # Required to create release issues
