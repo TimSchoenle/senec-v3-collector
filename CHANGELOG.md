@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.26](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.25...v1.1.26) (2026-11-09)
+
+
+### Bug Fixes
+
+* **compose:** stop shipping a default Grafana admin password ([#303](https://github.com/TimSchoenle/senec-v3-collector/issues/303)) ([7556491](https://github.com/TimSchoenle/senec-v3-collector/commit/75564915cbe42a759180f2e6cea7500e6f87f0be))
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#325](https://github.com/TimSchoenle/senec-v3-collector/issues/325)) ([74c9655](https://github.com/TimSchoenle/senec-v3-collector/commit/74c965502d1384bc26f13f2995ec3e65895254dd))
+
 ## [1.1.25](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.24...v1.1.25) (2026-11-02)
 
 
