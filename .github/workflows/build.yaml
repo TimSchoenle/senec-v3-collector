@@ -78,54 +78,6 @@ jobs:
           test_arguments: '--all-features --workspace'
           flags: rust
 
-  # Formatting is split in two. `cargo fmt` honours the pull request's rust-toolchain.toml and
-  # rustfmt.toml, so `fmt` runs pull request code and holds no secret, no environment and no write
-  # permission; it only uploads what it changed as a patch artifact. `fmt-commit` in
-  # build-commit.yaml (a workflow_run workflow the pull request cannot edit) holds the App token and
-  # runs no repository code: it checks out the head for git's objects only, and commit-patch refuses
-  # any path outside `allowed_paths`.
-  #
-  # Pull requests only: a push to main is never formatted and committed to directly.
-  fmt:
-    name: Auto Format
-    if: github.event_name == 'pull_request'
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      contents: read # Required to checkout the code
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
-        with:
-          egress-policy: audit
-
-      # The pull request head, not the merge commit: the patch is committed to the branch, so it has
-      # to be computed against the commit the branch points at.
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-          ref: ${{ github.event.pull_request.head.sha }}
-
-      - name: Auto Format
-        id: format
-        uses: TimSchoenle/actions/actions/rust/auto-format@e4229b81c3c3c880b9561dc4d53bd87ccf49eaf3 # tag=actions-rust-auto-format-v2.0.1
-        with:
-          artifact_name: rust-auto-format
-
-      # `cargo fmt` reformats rather than fails, and build-commit.yaml commits the patch only after
-      # this whole run has finished, when every other required check on this head may already be
-      # green. Failing here keeps the unformatted head from merging; the run on the formatting
-      # commit decides. Nothing commits to a fork's branch, so a fork's pull request is not held,
-      # as it was not before the commit moved out of this run.
-      - name: Fail while a formatting commit is pending
-        if: >-
-          steps.format.outputs.changes_detected == 'true' &&
-          github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          echo "::error::cargo fmt changed files; build-commit.yaml commits them and the run on that commit decides. If no bot commit appears, run cargo fmt locally and push."
-          exit 1
-
   clippy:
     name: Clippy
     runs-on: ubuntu-latest

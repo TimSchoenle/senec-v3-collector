@@ -1,23 +1,17 @@
 name: Docs
 
-# README.md is generated from .github/templates/README.md.hbs and committed. This workflow is what
-# makes that claim true in both directions.
-#
-# On a pull request it re-renders the file, and docs-commit.yml commits the result to the branch, so
-# the README is never edited by hand and a change to the template arrives rendered. On a push to
-# main, and on a pull request from a fork that has no token to commit with, it renders to nothing
-# and compares instead, failing when the committed file is stale.
-#
-# Without the second half, editing README.md directly would appear to work right up until the next
-# pull request silently reverted it.
+# The generated documents are rendered and committed on a pull request by the `render` job in
+# generate.yaml and by generate-commit.yaml. This workflow is the other direction: wherever
+# nothing commits (a push to the default branch, a pull request from a fork) it renders in
+# `check` mode, writing nothing and failing when a committed file is stale. Without it, editing
+# a generated page directly would appear to work right up until the next pull request silently
+# reverted it.
 
 on:
   pull_request:
   push:
     branches: [main]
 
-# A newer push supersedes the run on the older head. Nothing here writes to the branch: the
-# commit happens in docs-commit.yml, which queues with the other writers to this branch.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -25,73 +19,11 @@ concurrency:
 permissions: {}
 
 jobs:
-  render:
-    name: Render
-    # A fork's branch is not in this repository, so there is nothing to commit to. The verify job
-    # below picks those pull requests up instead.
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    # Holds no secret: it reads the pull request's template and hands on only a patch, which
-    # `render-commit` in docs-commit.yml (a workflow_run workflow the pull request cannot edit)
-    # commits.
-    permissions:
-      contents: read # to fetch code
-    steps:
-      - name: Harden Runner
-        uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43 # v2.22.3
-        with:
-          egress-policy: audit
-
-      # The head of the pull request, not the merge commit: the render has to read the template
-      # the pull request proposes, and the patch is committed to the branch, so it has to be
-      # computed against the commit the branch points at.
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
-          persist-credentials: false
-
-      # Everything the template interpolates, read off the files in the checkout: the repository
-      # coordinates, the release from Cargo.toml, and the table of documents walked out of docs/.
-      # There is no `extra` here because this repository has no generator of its own.
-      #
-      # `branch` is the repository's default branch and not `github.ref_name`, which on a pull
-      # request is `<number>/merge`. Rendering that into the badge URLs would make this job and the
-      # verify job below disagree by construction, and every merge would then fail the gate for a
-      # reason that is not in its diff.
-      - name: Collect the README payload
-        id: variables
-        uses: TimSchoenle/actions/actions/common/readme-variables@dc5b395636dc1954383f11af4062a08814e9b15a # tag=actions-common-readme-variables-v2.1.1
-        with:
-          branch: ${{ github.event.repository.default_branch }}
-
-      - name: Render the README
-        uses: TimSchoenle/actions/actions/common/render-template@dc5b395636dc1954383f11af4062a08814e9b15a # tag=actions-common-render-template-v3.0.1
-        with:
-          template: .github/templates/README.md.hbs
-          output: README.md
-          variables: ${{ steps.variables.outputs.variables }}
-
-      - name: Create Patch
-        id: patch
-        uses: TimSchoenle/actions/actions/common/create-patch@dc5b395636dc1954383f11af4062a08814e9b15a # tag=actions-common-create-patch-v1.1.1
-        with:
-          artifact_name: readme-render
-          paths: README.md
-
-      # The patch is committed by docs-commit.yml after this run has finished. While it is
-      # non-empty this head is not the one to merge: the run on the bot commit decides.
-      - name: Fail while the patch is uncommitted
-        if: steps.patch.outputs.has_changes == 'true'
-        run: |
-          echo "::error::README.md changed; docs-commit.yml commits the patch and the run on that commit decides. If no bot commit appears, regenerate the files locally and push."
-          exit 1
 
   # The drift gate. Make this a required check once the pull request that adds it has merged.
   verify:
     name: readme
-    # The complement of `render`: the pushes to main that no pull request rendered, and the fork
+    # The complement of `render` in generate.yaml: the pushes to main that no pull request rendered, and the fork
     # pull requests that could not be committed to. Between the two conditions, every event this
     # workflow sees is handled by exactly one job.
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
@@ -110,7 +42,7 @@ jobs:
         with:
           persist-credentials: false
 
-      # The same step as in `render`, with the same inputs. It has to be: this job reproduces that
+      # The same step as in `render` in generate.yaml, with the same inputs. It has to be: this job reproduces that
       # render and compares, so any difference between the two would be a gate that passes on a
       # stale file.
       - name: Collect the README payload
