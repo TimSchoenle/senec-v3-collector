@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.27](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.26...v1.1.27) (2026-11-18)
+
+
+### Dependencies
+
+* **deps:** update docker/dockerfile docker tag to v1.29 ([#336](https://github.com/TimSchoenle/senec-v3-collector/issues/336)) ([c390c07](https://github.com/TimSchoenle/senec-v3-collector/commit/c390c07005ef3b6beb9a10403cc1484968aed2db))
+* **deps:** update rust to v1.100.0 ([#338](https://github.com/TimSchoenle/senec-v3-collector/issues/338)) ([359faf2](https://github.com/TimSchoenle/senec-v3-collector/commit/359faf27a7e6f48952e0a5796b4d9531fd64b20c))
+
 ## [1.1.26](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.25...v1.1.26) (2026-11-09)
 
 
