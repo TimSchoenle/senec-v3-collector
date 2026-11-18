@@ -198,8 +198,7 @@ fn extract_ids(html: &str) -> Result<Vec<String>> {
         let id = cap
             .get(1)
             .or_else(|| cap.get(2))
-            .map(|m| m.as_str())
-            .unwrap_or_default()
+            .map_or_default(|m| m.as_str())
             .trim_matches(['"', '\'', ' ']);
 
         if !id.is_empty() {

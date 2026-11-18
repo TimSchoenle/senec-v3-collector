@@ -122,8 +122,7 @@ impl PrometheusMetricsExporter {
         let initial_economics_state = match economics_state_path.as_deref() {
             Some(path) => read_grid_economics_snapshot(path)?
                 .as_ref()
-                .map(GridEconomicsState::from_snapshot)
-                .unwrap_or_default(),
+                .map_or_default(GridEconomicsState::from_snapshot),
             None => GridEconomicsState::default(),
         };
 
