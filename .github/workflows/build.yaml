@@ -33,7 +33,7 @@ jobs:
       contents: read # Required to checkout the code
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
@@ -48,12 +48,12 @@ jobs:
       contents: read # Required to checkout the code
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
       - name: Run Test
-        uses: TimSchoenle/actions/actions/rust/test@49acdef9979f343817ec2a85ddd25e5f34befc8b # tag=actions-rust-test-v2.0.0
+        uses: TimSchoenle/actions/actions/rust/test@54a4dc05fd351a9bf9e9638fa3ebbc572b5f2d7f # tag=actions-rust-test-v2.0.1
 
   # Kept apart from `test`, so a Codecov outage fails this job alone. The upload authenticates
   # with this job's OIDC token, so the job needs no environment and no secret.
@@ -67,13 +67,13 @@ jobs:
       id-token: write # Required to authenticate the Codecov upload with OIDC
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
       # The arguments `test` runs with, which are the rust/test action's defaults.
       - name: Run Coverage
-        uses: TimSchoenle/actions/actions/rust/coverage-codecov@49acdef9979f343817ec2a85ddd25e5f34befc8b # tag=actions-rust-coverage-codecov-v2.1.0
+        uses: TimSchoenle/actions/actions/rust/coverage-codecov@54a4dc05fd351a9bf9e9638fa3ebbc572b5f2d7f # tag=actions-rust-coverage-codecov-v2.1.1
         with:
           test_arguments: '--all-features --workspace'
           flags: rust
@@ -87,13 +87,13 @@ jobs:
       checks: write # Required to annotate the commit with clippy warnings
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
       # The shared action only annotates findings; `-D warnings` is what fails the job on them.
       - name: Run Clippy
-        uses: TimSchoenle/actions/actions/rust/clippy@49acdef9979f343817ec2a85ddd25e5f34befc8b # tag=actions-rust-clippy-v2.0.0
+        uses: TimSchoenle/actions/actions/rust/clippy@ded012bb09f11e42381c9b1b7c3ff0dbc09156bf # tag=actions-rust-clippy-v2.0.1
         with:
           clippy_arguments: '--workspace --all-targets --all-features -- -D warnings'
 
@@ -110,7 +110,7 @@ jobs:
       contents: read # Required to checkout the code
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
@@ -147,7 +147,7 @@ jobs:
       pull-requests: write # Required to comment on PRs with image size and scan results
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
@@ -216,7 +216,7 @@ jobs:
       # workflow builds, and a platform would move the SARIF under a new category and orphan every
       # alert code scanning already holds for it.
       - name: Check Docker image
-        uses: TimSchoenle/actions/actions/docker/image-check@0b3967d3d992d12aa88da1f8facf412b162d5ab2 # tag=actions-docker-image-check-v1.1.17
+        uses: TimSchoenle/actions/actions/docker/image-check@ded012bb09f11e42381c9b1b7c3ff0dbc09156bf # tag=actions-docker-image-check-v1.1.19
         with:
           image: image:test
 
@@ -228,7 +228,7 @@ jobs:
     if: github.event_name == 'pull_request'
     steps:
       - name: Harden Runner
-        uses: step-security/harden-runner@1d88384fd173af6ecb012dfd0264a306b711241a # v2.22.4
+        uses: step-security/harden-runner@aebdcf6156ab6691adf63218240e476564a1ed4c # v2.23.0
         with:
           egress-policy: audit
 
@@ -238,4 +238,4 @@ jobs:
           persist-credentials: false
 
       - name: Dependency Review
-        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        uses: actions/dependency-review-action@bbc44d14a204704ccc493733616cd1e93a0321ec # v5.0.1
