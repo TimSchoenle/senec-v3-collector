@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.27](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.26...v1.1.27) (2026-11-23)
+
+
+### Dependencies
+
+* **deps:** lock file maintenance ([#343](https://github.com/TimSchoenle/senec-v3-collector/issues/343)) ([889453a](https://github.com/TimSchoenle/senec-v3-collector/commit/889453a3d91d127c94dbeb611dfadcf411cb467b))
+* **deps:** update docker/dockerfile docker tag to v1.29 ([#336](https://github.com/TimSchoenle/senec-v3-collector/issues/336)) ([c390c07](https://github.com/TimSchoenle/senec-v3-collector/commit/c390c07005ef3b6beb9a10403cc1484968aed2db))
+* **deps:** update rust crate clap to v4.6.8 ([#341](https://github.com/TimSchoenle/senec-v3-collector/issues/341)) ([99385d6](https://github.com/TimSchoenle/senec-v3-collector/commit/99385d6431221453cc218119e94aaa7b65679e76))
+* **deps:** update rust crate regex to v1.13.2 ([#342](https://github.com/TimSchoenle/senec-v3-collector/issues/342)) ([3442b75](https://github.com/TimSchoenle/senec-v3-collector/commit/3442b75ddff7553e7941506db12ab6b0e2225bf6))
+* **deps:** update rust crate url to v2.5.9 [security] ([#339](https://github.com/TimSchoenle/senec-v3-collector/issues/339)) ([29f6e86](https://github.com/TimSchoenle/senec-v3-collector/commit/29f6e86a6fce3cdf8255427d921bf0536e1abae6))
+* **deps:** update rust to v1.100.0 ([#338](https://github.com/TimSchoenle/senec-v3-collector/issues/338)) ([359faf2](https://github.com/TimSchoenle/senec-v3-collector/commit/359faf27a7e6f48952e0a5796b4d9531fd64b20c))
+
 ## [1.1.26](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.25...v1.1.26) (2026-11-09)
 
 
