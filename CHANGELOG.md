@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.28](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.27...v1.1.28) (2026-11-28)
+
+
+### Dependencies
+
+* **deps:** update rust crate anyhow to v1.0.105 ([#345](https://github.com/TimSchoenle/senec-v3-collector/issues/345)) ([c4901b8](https://github.com/TimSchoenle/senec-v3-collector/commit/c4901b8262939b681eb60495c8f0b96058606ab8))
+* **deps:** update rust crate clap to v4.6.10 ([#348](https://github.com/TimSchoenle/senec-v3-collector/issues/348)) ([40c8a66](https://github.com/TimSchoenle/senec-v3-collector/commit/40c8a6655dfde05f6cfea119177022f0da054f59))
+
 ## [1.1.27](https://github.com/TimSchoenle/senec-v3-collector/compare/v1.1.26...v1.1.27) (2026-11-23)
 
 
